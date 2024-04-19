@@ -13,7 +13,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@date-io/dayjs": "^3.0.0",
+    "@mdi/font": "^7.4.47",
+    "dayjs": "^1.11.10",
     "sass": "^1.75.0",
+    "vite-plugin-vuetify": "^2.0.3",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vuetify": "^3.5.16"
