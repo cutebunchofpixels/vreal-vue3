@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar class="header" :title="'Trainee Mockup'" />
+    <VAppBar class="header" :title="'Trainee Mockup'" />
 </template>
 
 <style lang="scss" scoped>

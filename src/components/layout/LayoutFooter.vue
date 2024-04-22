@@ -1,7 +1,7 @@
 <template>
-    <v-footer class="footer">
+    <VFooter class="footer">
         Footer
-    </v-footer>
+    </VFooter>
 </template>
 
 <style lang="scss" scoped>

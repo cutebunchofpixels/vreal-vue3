@@ -1,7 +1,7 @@
 <template>
-    <v-main class="content">
+    <VMain class="content">
         <RouterView />
-    </v-main>
+    </VMain>
 </template>
 
 <style lang="scss" scoped>
