@@ -44,5 +44,7 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 35px;
+    height: 100%;
+    justify-content: center
 }
 </style>
