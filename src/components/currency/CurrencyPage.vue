@@ -2,11 +2,13 @@
 import IntervalSelectors from './IntervalSelectors/IntervalSelectors.vue';
 import type { PaymentCardInfo } from './PaymentCards/PaymentCard.vue';
 import PaymentCardsList from './PaymentCards/PaymentCardsList.vue';
+import ExchangeChartBlock from './ExchangeChart/ExchangeChartBlock.vue';
 
 export default {
     components: {
         IntervalSelectors,
-        PaymentCardsList
+        PaymentCardsList,
+        ExchangeChartBlock
     },
 
     data() {
@@ -34,6 +36,7 @@ export default {
         <h1>Currency exchange</h1>
         <IntervalSelectors />
         <PaymentCardsList :cards="cards" />
+        <ExchangeChartBlock />
     </div>
 </template>
 
@@ -41,10 +44,9 @@ export default {
 .container {
     max-width: 1000px;
     width: 100%;
+    gap: 35px;
     display: flex;
     flex-direction: column;
-    gap: 35px;
-    height: 100%;
-    justify-content: center
+    justify-content: center;
 }
 </style>
