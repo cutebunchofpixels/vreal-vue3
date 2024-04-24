@@ -21,6 +21,7 @@
     "secure-ls": "^1.2.6",
     "vite-plugin-vuetify": "^2.0.3",
     "vue": "^3.4.21",
+    "vue-i18n": "^9.13.1",
     "vue-router": "^4.3.0",
     "vuetify": "^3.5.16",
     "vuex": "^4.0.2"
