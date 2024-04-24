@@ -11,7 +11,6 @@ import 'vuetify/styles'
 
 export const vuetify = createVuetify({
   theme: {
-    defaultTheme: 'dark',
     themes: { light, dark }
   },
   components,

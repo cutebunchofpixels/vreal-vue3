@@ -3,7 +3,6 @@ import IntervalSelectors from './IntervalSelectors/IntervalSelectors.vue';
 import type { PaymentCardInfo } from './PaymentCards/PaymentCard.vue';
 import PaymentCardsList from './PaymentCards/PaymentCardsList.vue';
 import ExchangeChartBlock from './ExchangeChart/ExchangeChartBlock.vue';
-import { mapMutations } from 'vuex';
 
 export default {
     components: {
@@ -29,17 +28,12 @@ export default {
             ] as PaymentCardInfo[]
         }
     },
-
-    methods: {
-        ...mapMutations('config', ['toggleTheme'])
-    }
 }
 </script>
 
 <template>
     <div class="pa-4 container">
         <h1>Currency exchange</h1>
-        <VBtn @click="toggleTheme">Toggle theme</VBtn>
         <IntervalSelectors />
         <PaymentCardsList :cards="cards" />
         <ExchangeChartBlock />

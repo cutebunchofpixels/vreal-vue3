@@ -81,6 +81,6 @@ export default {
 }
 
 .prepend-icon {
-    color: #000
+    color: var(--v-color-contrast)
 }
 </style>

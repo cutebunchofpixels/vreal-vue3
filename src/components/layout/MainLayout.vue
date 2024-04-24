@@ -1,5 +1,5 @@
 <script lang="ts">
-import LayoutHeader from './LayoutHeader.vue';
+import LayoutHeader from './Header/LayoutHeader.vue';
 import LayoutFooter from './LayoutFooter.vue';
 import LayoutContent from './LayoutContent.vue';
 

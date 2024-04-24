@@ -3,11 +3,7 @@ import type { ConfigState } from './state'
 import { Theme } from '@/types/Theme'
 
 export const configMutations: MutationTree<ConfigState> = {
-  toggleTheme: (state) => {
-    if (state.theme === Theme.Light) {
-      state.theme = Theme.Dark
-    } else {
-      state.theme = Theme.Light
-    }
+  setTheme: (state, { theme }: { theme: Theme }) => {
+    state.theme = theme
   }
 }
