@@ -3,7 +3,7 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <v-app class="overflow-y-hidden">
+  <VApp>
     <RouterView />
-  </v-app>
+  </VApp>
 </template>

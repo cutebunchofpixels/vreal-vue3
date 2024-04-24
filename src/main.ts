@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 
 import { vuetify } from './vuetify'
+import { store } from './store'
 
 import '@/assets/index.css'
 
@@ -9,6 +10,6 @@ import router from './router'
 
 const app = createApp(App)
 
-app.use(router).use(vuetify)
+app.use(store).use(router).use(vuetify)
 
 app.mount('#app')
