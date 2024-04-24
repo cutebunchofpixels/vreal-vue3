@@ -32,7 +32,7 @@ export default {
             <VTextField type="text" :value="displayDate" class="textfield" variant="solo" hide-details="auto">
                 <template v-slot:prepend>
                     <div class="textfield-prepend-wrapper">
-                        <VIcon icon="mdi-calendar-blank-outline" class="text-medium-emphasis" />
+                        <VIcon icon="mdi-calendar-blank-outline" class="prepend-icon" />
                     </div>
                 </template>
                 <VMenu activator="parent">
@@ -78,5 +78,9 @@ export default {
     background: var(--v-border-color);
     display: grid;
     place-items: center;
+}
+
+.prepend-icon {
+    color: #000
 }
 </style>
