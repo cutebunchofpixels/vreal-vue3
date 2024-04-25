@@ -1,3 +1,13 @@
 {
-    "hello": "Hello in Hebrew"
+    "currencyExchange": "המרת מטבע",
+    "viewReport": "הצג דוח",
+    "startDate": "תאריך התחלה",
+    "endDate": "תאריך סיום",
+    "repeatPurchaseRate": "שיעור רכישה חוזרת",
+    "averagePayment": "תשלום ממוצע",
+    "totalRevenue": "סה״כ הכנסות",
+    "interval": "מרווח",
+    "exchangeRates": "שערי חליפין",
+    "currentWeek": "השבוע הנוכחי",
+    "previousWeek": "שבוע שעבר"
 }

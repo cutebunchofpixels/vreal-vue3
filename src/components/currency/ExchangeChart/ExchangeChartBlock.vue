@@ -13,7 +13,7 @@ export default {
 <template>
     <VCard>
         <VCardTitle class="chart-card-title">
-            <div>Exchange rates</div>
+            <div>{{ $t("exchangeRates") }}</div>
             <ExchangePeriodDropdown />
         </VCardTitle>
         <VCardText class="chart-card-body">

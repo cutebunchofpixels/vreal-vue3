@@ -1,3 +1,13 @@
 {
-    "hello": "Hi!"
+    "currencyExchange": "Currency exchange",
+    "viewReport": "View report",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "repeatPurchaseRate": "Repeat purchase rate",
+    "averagePayment": "Average payment",
+    "totalRevenue": "Total revenue",
+    "interval": "Inverval",
+    "exchangeRates": "Exchange rates",
+    "currentWeek": "Current week",
+    "previousWeek": "Previous week"
 }

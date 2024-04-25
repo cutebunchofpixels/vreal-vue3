@@ -17,13 +17,13 @@ export default {
                 {
                     value: 75000,
                     type: 'currency',
-                    caption: 'Total revenue',
+                    caption: this.$t("totalRevenue"),
                 },
-                { value: 16, type: 'currency', caption: 'Average payment' },
+                { value: 16, type: 'currency', caption: this.$t("averagePayment") },
                 {
                     value: 15,
                     type: 'percentage',
-                    caption: 'Repeat purchase rate',
+                    caption: this.$t("repeatPurchaseRate"),
                 },
             ] as PaymentCardInfo[]
         }
@@ -33,7 +33,7 @@ export default {
 
 <template>
     <div class="pa-4 container">
-        <h1>Currency exchange</h1>
+        <h1>{{ $t("currencyExchange") }}</h1>
         <IntervalSelectors />
         <PaymentCardsList :cards="cards" />
         <ExchangeChartBlock />

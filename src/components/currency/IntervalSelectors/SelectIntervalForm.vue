@@ -22,14 +22,14 @@ export default {
     <VForm class="form-container">
         <VRow justify="space-between">
             <VCol cols="12" sm="6" md="auto" class="flex-grow-1">
-                <DatePicker v-model="startDate" label="Start date" />
+                <DatePicker v-model="startDate" :label="$t('startDate')" />
             </VCol>
             <VCol cols="12" sm="6" md="auto" class="flex-grow-1">
-                <DatePicker v-model="endDate" label="End date" />
+                <DatePicker v-model="endDate" :label="$t('endDate')" />
             </VCol>
             <VCol cols="12" md="auto" class="d-flex justify-end">
                 <VBtn>
-                    View report
+                    {{ $t("viewReport") }}
                 </VBtn>
             </VCol>
         </VRow>

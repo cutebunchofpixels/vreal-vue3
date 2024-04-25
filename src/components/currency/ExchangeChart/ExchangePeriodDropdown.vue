@@ -10,7 +10,7 @@ enum IntervalOption {
 export default {
     data() {
         return {
-            options: getEnumOptions<IntervalOption>(IntervalOption, (label) => label)
+            options: getEnumOptions<IntervalOption>(IntervalOption, (label) => this.$t(label))
         }
     },
 
@@ -25,7 +25,7 @@ export default {
 
 <template>
     <VBtn ref="button">
-        Interval
+        {{ $t("interval") }}
         <VMenu activator="parent">
             <v-list @click:select="(arg) => handleOptionSelect(arg.id as IntervalOption)">
                 <v-list-item v-for="option in options" :key="option.label" :value="option.label">
