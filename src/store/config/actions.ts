@@ -1,4 +1,5 @@
 import type { ActionTree } from 'vuex'
+import type { VueI18n } from 'vue-i18n'
 
 import type { ConfigState } from './state'
 import { Theme } from '@/types/Theme'
@@ -14,8 +15,9 @@ export const configActions: ActionTree<ConfigState, {}> = {
     ls.set(THEME_LS_KEY, newTheme)
   },
 
-  changeLocale: (context, locale: Locale) => {
+  changeLocale: (context, { locale, i18nInstance }: { locale: Locale; i18nInstance: VueI18n }) => {
     context.commit('setLocale', { locale })
+    i18nInstance.locale = locale
     document.documentElement.setAttribute('lang', locale)
   }
 }

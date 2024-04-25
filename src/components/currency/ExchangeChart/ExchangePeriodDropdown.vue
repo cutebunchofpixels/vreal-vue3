@@ -10,7 +10,7 @@ enum IntervalOption {
 export default {
     data() {
         return {
-            options: getEnumOptions<IntervalOption>(IntervalOption)
+            options: getEnumOptions<IntervalOption>(IntervalOption, (label) => label)
         }
     },
 

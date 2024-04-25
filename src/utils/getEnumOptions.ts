@@ -1,6 +1,6 @@
-export function getEnumOptions<T>(obj: Record<string, T>) {
+export function getEnumOptions<T>(obj: Record<string, T>, getLabel: (value: T) => string) {
   return Object.values(obj).map((value) => ({
-    label: value,
+    label: getLabel(value),
     value
   }))
 }
