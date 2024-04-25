@@ -4,7 +4,7 @@ import type { VueI18n } from 'vue-i18n'
 import type { ConfigState } from './state'
 import { Theme } from '@/types/Theme'
 import { ls } from '@/utils/secureLs'
-import { THEME_LS_KEY } from './constants'
+import { LOCALE_LS_KEY, THEME_LS_KEY } from './constants'
 import type { Locale } from '@/types/Locale'
 
 export const configActions: ActionTree<ConfigState, {}> = {
@@ -19,5 +19,6 @@ export const configActions: ActionTree<ConfigState, {}> = {
     context.commit('setLocale', { locale })
     i18nInstance.locale = locale
     document.documentElement.setAttribute('lang', locale)
+    ls.set(LOCALE_LS_KEY, locale)
   }
 }
