@@ -15,6 +15,7 @@
   "dependencies": {
     "@date-io/dayjs": "^3.0.0",
     "@mdi/font": "^7.4.47",
+    "axios": "^1.6.8",
     "dayjs": "^1.11.10",
     "plotly.js": "^2.31.1",
     "sass": "^1.75.0",
