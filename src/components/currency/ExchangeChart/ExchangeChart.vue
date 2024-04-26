@@ -1,56 +1,119 @@
 <script lang="ts">
-import { newPlot, type Config, type Layout } from 'plotly.js';
+import { mapState } from 'vuex';
+import { newPlot, type Config, type Data, type Layout } from 'plotly.js';
 
-const chartLayout: Partial<Layout> = {
-    margin: {
-        t: 0,
-        r: 30,
-        l: 30,
-    },
-    xaxis: {
-        showgrid: false,
-        showline: true,
-        showdividers: true,
-        title: "Date",
-        ticks: 'outside',
-        tickformat: "%Y-%m-%d"
-    },
-    font: {
-        family: '"Roboto", sans-serif'
-    },
-    showlegend: false,
+import { Theme } from '@/types/Theme';
+import type { CurrencyExchangeRates } from '@/types/models/CurrencyExchange/CurrencyExchangeRates';
 
-}
-
-const trace1 = {
-    x: ["2024-04-17", "2024-04-18", "2024-04-19", "2024-04-20"],
-    y: [10, 15, 13, 17],
-    name: "USD to UAH"
-};
-
-const trace2 = {
-    x: ["2024-04-17", "2024-04-18", "2024-04-19", "2024-04-20"],
-    y: [16, 5, 11, 9],
-    name: "EUR to UAH"
-};
-
-const chartConfig: Partial<Config> = {
-    responsive: true,
-    staticPlot: true,
+interface ChartOptions {
+    data: Data[],
+    layout: Partial<Layout>,
+    config: Partial<Config>
 }
 
 export default {
-    mounted() {
-        const chartContainer = this.$refs.chartContainer as HTMLDivElement;
+    computed: {
+        ...mapState("currency", ["exchangeRates", "isLoading"]),
+        ...mapState("config", ["theme"]),
 
-        newPlot(chartContainer, [trace1, trace2], chartLayout, chartConfig);
+        chartData(): Data[] {
+            const dates = this.exchangeRates.map((item: CurrencyExchangeRates) => item.date.format("YYYY-MM-DD"))
+
+            const usdTrace: Data = {
+                x: dates,
+                y: this.exchangeRates.map((item: CurrencyExchangeRates) => 1 / item.exchangeRates.usd),
+                name: "USD to UAH",
+            }
+
+            const eurTrace: Data = {
+                x: dates,
+                y: this.exchangeRates.map((item: CurrencyExchangeRates) => 1 / item.exchangeRates.eur),
+                name: "EUR to UAH",
+            }
+
+            return [usdTrace, eurTrace]
+        },
+
+        chartLayout(): Partial<Layout> {
+            return {
+                margin: {
+                    t: 0,
+                },
+
+                xaxis: {
+                    showgrid: false,
+                    showline: true,
+                    showdividers: true,
+                    title: this.$t("date"),
+                    ticks: 'outside',
+                    tickformat: "%Y-%m-%d"
+                },
+
+                yaxis: {
+                    title: this.$t("exchangeRates")
+                },
+
+                font: {
+                    family: '"Roboto", sans-serif',
+                    color: this.theme === Theme.Light ? "rgb(0, 0, 0)" : "rgb(255, 255, 255)"
+                },
+
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+
+                showlegend: false,
+            }
+        },
+
+        chartConfig(): Partial<Config> {
+            return {
+                responsive: true,
+                staticPlot: true,
+            }
+        },
+
+        chartOptions(): ChartOptions {
+            return {
+                data: this.chartData,
+                layout: this.chartLayout,
+                config: this.chartConfig,
+            }
+        }
+    },
+
+    watch: {
+        chartOptions(options: ChartOptions) {
+            if (options.data) {
+                const chartContainer = this.$refs.chartContainer as HTMLDivElement;
+                newPlot(chartContainer, options.data, options.layout, options.config);
+            }
+        }
     },
 }
 </script>
 
 <template>
-    <div ref="chartContainer" class="chart-container"></div>
+    <div ref="chartContainer" class="chart-container">
+        <VSkeletonLoader v-if="isLoading" type="card" />
+    </div>
 </template>
+
+<style lang="scss">
+.chart-container {
+    & * {
+        height: 100%
+    }
+
+    .v-skeleton-loader__heading {
+        display: none;
+    }
+
+    .v-skeleton-loader__image {
+        width: 100%;
+        height: 100%
+    }
+}
+</style>
 
 <style lang="scss" scoped>
 .chart-container {

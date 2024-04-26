@@ -3,6 +3,8 @@ import IntervalSelectors from './IntervalSelectors/IntervalSelectors.vue';
 import type { PaymentCardInfo } from './PaymentCards/PaymentCard.vue';
 import PaymentCardsList from './PaymentCards/PaymentCardsList.vue';
 import ExchangeChartBlock from './ExchangeChart/ExchangeChartBlock.vue';
+import { mapActions, mapGetters } from 'vuex';
+import { INITIAL_END_DATE, INITIAL_START_DATE } from '@/store/currency/constants';
 
 export default {
     components: {
@@ -28,6 +30,20 @@ export default {
             ] as PaymentCardInfo[]
         }
     },
+
+    methods: {
+        ...mapActions("currency", ["fetchExchangeRates"])
+    },
+
+    computed: {
+        ...mapGetters("currency", ["isEmpty"])
+    },
+
+    mounted() {
+        if (this.isEmpty) {
+            this.fetchExchangeRates({ startDate: INITIAL_START_DATE, endDate: INITIAL_END_DATE })
+        }
+    }
 }
 </script>
 

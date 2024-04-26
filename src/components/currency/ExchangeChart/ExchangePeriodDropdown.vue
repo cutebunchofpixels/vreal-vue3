@@ -8,9 +8,9 @@ enum IntervalOption {
 }
 
 export default {
-    data() {
-        return {
-            options: getEnumOptions<IntervalOption>(IntervalOption, (label) => this.$t(label))
+    computed: {
+        options() {
+            return getEnumOptions<IntervalOption>(IntervalOption, (label) => this.$t(label))
         }
     },
 

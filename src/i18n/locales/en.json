@@ -9,5 +9,6 @@
     "interval": "Inverval",
     "exchangeRates": "Exchange rates",
     "currentWeek": "Current week",
-    "previousWeek": "Previous week"
+    "previousWeek": "Previous week",
+    "date": "Date"
 }
