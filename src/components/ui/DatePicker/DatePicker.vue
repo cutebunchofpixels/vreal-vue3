@@ -1,23 +1,31 @@
 <script lang="ts">
 import { Dayjs } from 'dayjs';
+import type { PropType } from 'vue';
 
 export default {
     props: {
         modelValue: {
             type: Dayjs,
-            required: true,
         },
         label: {
             type: String,
-            required: true,
+        },
+        allowedDates: {
+            type: Function as PropType<(value: Dayjs) => boolean>,
+            default: () => true
         }
     },
 
     computed: {
         displayDate() {
-            return this.modelValue.format("YYYY-MM-DD")
+            return this.modelValue ? this.modelValue.format("YYYY-MM-DD") : ''
         }
     },
+
+    emits: {
+        'update:model-value': (newValue: Dayjs) => true,
+        clear: () => true,
+    }
 }
 </script>
 
@@ -29,16 +37,17 @@ export default {
             </div>
         </VCol>
         <VCol cols="12" sm="auto" class="flex-grow-1">
-            <VTextField type="text" :value="displayDate" class="textfield" variant="solo" hide-details="auto">
+            <VTextField type="text" :model-value="displayDate" class="textfield" readonly clearable variant="solo"
+                hide-details="auto" @click:clear="$emit('clear')">
                 <template v-slot:prepend>
                     <div class="textfield-prepend-wrapper">
                         <VIcon icon="mdi-calendar-blank-outline" class="prepend-icon" />
                     </div>
                 </template>
-                <VMenu activator="parent">
+                <VMenu activator="parent" :close-on-content-click="false">
                     <VDatePicker :model-value="modelValue"
-                        @update:model-value="(newValue) => $emit('update:modelValue', newValue)" class="date-picker"
-                        width="100%" show-adjacent-months hide-header />
+                        @update:model-value="(newValue) => $emit('update:model-value', newValue)" class="date-picker"
+                        show-adjacent-months hide-header :allowed-dates="(date) => allowedDates(date as Dayjs)" />
                 </VMenu>
             </VTextField>
         </VCol>
@@ -52,6 +61,8 @@ export default {
     }
 
     & .v-field {
+        width: 240px;
+
         &__outline {
             border: 1px solid var(--v-border-color);
         }
@@ -62,7 +73,8 @@ export default {
 
         &__input {
             min-height: auto;
-            padding: 8px 10px;
+            padding: 10px 10px;
+            line-height: 1;
         }
 
     }

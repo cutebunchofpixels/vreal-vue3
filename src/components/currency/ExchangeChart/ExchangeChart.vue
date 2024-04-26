@@ -1,6 +1,6 @@
 <script lang="ts">
 import { mapState } from 'vuex';
-import { newPlot, type Config, type Data, type Layout } from 'plotly.js';
+import Plotly, { newPlot, type Config, type Data, type Layout } from 'plotly.js';
 
 import { Theme } from '@/types/Theme';
 import type { CurrencyExchangeRates } from '@/types/models/CurrencyExchange/CurrencyExchangeRates';
@@ -46,7 +46,8 @@ export default {
                     showdividers: true,
                     title: this.$t("date"),
                     ticks: 'outside',
-                    tickformat: "%Y-%m-%d"
+                    tickformat: "%Y-%m-%d",
+                    dtick: "D1",
                 },
 
                 yaxis: {
@@ -60,6 +61,7 @@ export default {
 
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
+                autosize: true,
 
                 showlegend: false,
             }
@@ -84,8 +86,9 @@ export default {
     watch: {
         chartOptions(options: ChartOptions) {
             if (options.data) {
-                const chartContainer = this.$refs.chartContainer as HTMLDivElement;
-                newPlot(chartContainer, options.data, options.layout, options.config);
+                const chart = this.$refs.chart as HTMLDivElement;
+                Plotly.Plots.resize(chart)
+                newPlot(chart, options.data, options.layout, options.config);
             }
         }
     },
@@ -93,8 +96,13 @@ export default {
 </script>
 
 <template>
-    <div ref="chartContainer" class="chart-container">
-        <VSkeletonLoader v-if="isLoading" type="card" />
+    <div class="chart-container">
+        <Transition>
+            <VSkeletonLoader v-show="isLoading" type="card" />
+        </Transition>
+        <Transition>
+            <div v-show="!isLoading" ref="chart" class="chart"></div>
+        </Transition>
     </div>
 </template>
 
@@ -119,5 +127,20 @@ export default {
 .chart-container {
     width: 100%;
     height: 400px;
+}
+
+.chart {
+    width: 100%;
+    height: 400px;
+}
+
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
 }
 </style>

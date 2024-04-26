@@ -4,12 +4,17 @@ import type { Dayjs } from 'dayjs'
 import type { CurrencyState } from './state'
 import { CurrencyService } from '@/api/currency/CurrencyService'
 import { BASE_CURRENCY } from './constants'
+import { shouldRefetchExchangeRates } from '@/utils/shouldRefetchExchangeRates'
 
 export const currencyActions: ActionTree<CurrencyState, {}> = {
   fetchExchangeRates: async (
-    { commit },
+    { commit, getters },
     { startDate, endDate }: { startDate: Dayjs; endDate: Dayjs }
   ) => {
+    if (!shouldRefetchExchangeRates(startDate, endDate, getters.startDate, getters.endDate)) {
+      return
+    }
+
     commit('setLoading', true)
 
     try {
