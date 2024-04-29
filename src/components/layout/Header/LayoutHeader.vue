@@ -1,24 +1,39 @@
 <script lang="ts">
+import CurrentUser from './CurrentUser.vue';
 import LocalePicker from './LocalePicker.vue';
 import ThemeSwitch from './ThemeSwitch.vue';
 
 export default {
     components: {
-        ThemeSwitch, LocalePicker
-    }
+        ThemeSwitch, LocalePicker, CurrentUser
+    },
 }
 </script>
 
 <template>
     <VAppBar class="header">
         <VAppBarTitle class="appbar-title">Trainee mockup</VAppBarTitle>
-        <VSpacer />
+        <CurrentUser />
         <div class="actions-wrapper">
             <ThemeSwitch />
             <LocalePicker />
         </div>
     </VAppBar>
 </template>
+
+<style lang="scss">
+.header {
+    & .v-toolbar__content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    & .v-toolbar-title {
+        flex: unset;
+    }
+}
+</style>
 
 <style lang="scss" scoped>
 .header {
