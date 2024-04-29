@@ -5,6 +5,9 @@ import type { CurrencyState } from './state'
 import { CurrencyService } from '@/api/currency/CurrencyService'
 import { BASE_CURRENCY } from './constants'
 import { shouldRefetchExchangeRates } from '@/utils/shouldRefetchExchangeRates'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 
 export const currencyActions: ActionTree<CurrencyState, {}> = {
   fetchExchangeRates: async (
@@ -27,6 +30,7 @@ export const currencyActions: ActionTree<CurrencyState, {}> = {
       commit('setExchangeRates', exchangeRates)
     } catch (error) {
       commit('setError', (error as Error).message)
+      toast.error('An error occured while loading exchange rates. Try refreshing the page')
     } finally {
       commit('setLoading', false)
     }
