@@ -1,10 +1,27 @@
 <script lang="ts">
-import { getEnumOptions } from '@/utils/getEnumOptions';
 import type { VBtn } from 'vuetify/components';
+import { mapActions } from 'vuex';
+
+import { getEnumOptions } from '@/utils/getEnumOptions';
+import { dayjs } from '@/utils/dayjs';
+import { MAX_EXCHANGE_INTERVAL } from '@/store/currency/constants';
+
 
 enum IntervalOption {
     CurrentWeek = "currentWeek",
     PreviousWeek = "previousWeek",
+}
+
+function getIntervalDates(option: IntervalOption) {
+    let startDate = dayjs().subtract(MAX_EXCHANGE_INTERVAL - 1, 'day')
+    let endDate = dayjs()
+
+    if (option === IntervalOption.PreviousWeek) {
+        startDate = dayjs().subtract(1, 'week')
+        endDate = startDate.add(MAX_EXCHANGE_INTERVAL - 1, 'day')
+    }
+
+    return { startDate, endDate }
 }
 
 export default {
@@ -15,9 +32,12 @@ export default {
     },
 
     methods: {
+        ...mapActions("currency", ["fetchExchangeRates"]),
+
         handleOptionSelect(option: IntervalOption) {
-            console.log("Select option " + option);
-            (this.$refs.button as VBtn).$el.focus();
+            const dates = getIntervalDates(option);
+            this.fetchExchangeRates(dates);
+            (this.$refs.button as VBtn).$el.focus()
         }
     }
 }
@@ -27,8 +47,9 @@ export default {
     <VBtn ref="button">
         {{ $t("interval") }}
         <VMenu activator="parent">
-            <v-list @click:select="(arg) => handleOptionSelect(arg.id as IntervalOption)">
-                <v-list-item v-for="option in options" :key="option.label" :value="option.label">
+            <v-list>
+                <v-list-item v-for="option in options" :key="option.label" :value="option.label"
+                    @click="handleOptionSelect(option.value)">
                     <v-list-item-title>{{ option.label }}</v-list-item-title>
                 </v-list-item>
             </v-list>
