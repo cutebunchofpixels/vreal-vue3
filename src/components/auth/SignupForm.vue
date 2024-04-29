@@ -1,4 +1,10 @@
 <script lang="ts">
+import { signInWithPopup } from 'firebase/auth';
+import { useToast } from 'vue-toastification';
+
+import { auth } from '@/firebase';
+import { googleAuthProvider } from '@/firebase/googleAuth';
+
 export interface SignupFormValues {
     email: string;
     password: string;
@@ -40,17 +46,31 @@ export default {
         }
     },
 
+    computed: {
+        toast() {
+            return useToast()
+        }
+    },
+
     methods: {
         handleSubmit(e: SubmitEvent) {
             e.preventDefault()
             const values = { email: this.email, password: this.password }
             this.$emit("submit", values)
+        },
+
+        async handleGoogleClick() {
+            try {
+                await signInWithPopup(auth, googleAuthProvider)
+                this.$router.push("currency")
+            } catch (error) {
+                this.toast.error("Unexpected error occured while signing-in with Google. Please, try again")
+            }
         }
     },
 
     emits: {
         submit: (values: SignupFormValues) => true,
-        'click:google': () => true,
     }
 }
 </script>
@@ -64,7 +84,7 @@ export default {
             @click:append-inner="showPassword = !showPassword" :rules="rules.password" />
         <VBtn rounded variant="outlined" type="submit">{{ submitCaption }}</VBtn>
         <VDivider />
-        <VBtn rounded variant="outlined" prepend-icon="mdi-google" @click="$emit('click:google')">Google</VBtn>
+        <VBtn rounded variant="outlined" prepend-icon="mdi-google" @click="handleGoogleClick">Google</VBtn>
     </VForm>
 </template>
 
