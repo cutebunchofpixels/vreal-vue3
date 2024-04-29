@@ -15,6 +15,16 @@ const router = createRouter({
           path: '/currency',
           name: 'currency',
           component: () => import('@/components/currency/CurrencyPage.vue')
+        },
+        {
+          path: '/signin',
+          name: 'signin',
+          component: () => import('@/components/auth/SigninPage.vue')
+        },
+        {
+          path: '/signup',
+          name: 'signup',
+          component: () => import('@/components/auth/SignupPage.vue')
         }
       ]
     }
