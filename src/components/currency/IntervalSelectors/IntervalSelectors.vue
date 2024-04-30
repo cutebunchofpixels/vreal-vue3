@@ -16,5 +16,3 @@ export default {
         </VCardText>
     </VCard>
 </template>
-
-<style lang="scss" scoped></style>

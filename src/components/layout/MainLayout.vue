@@ -16,5 +16,3 @@ export default {
     <LayoutContent />
     <LayoutFooter />
 </template>
-
-<style lang="scss" scoped></style>

@@ -56,5 +56,3 @@ export default {
         </VMenu>
     </VBtn>
 </template>
-
-<style lang="scss" scoped></style>
