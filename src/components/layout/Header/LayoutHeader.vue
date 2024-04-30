@@ -13,7 +13,7 @@ export default {
 <template>
     <VAppBar class="header">
         <VAppBarTitle class="appbar-title">Trainee mockup</VAppBarTitle>
-        <CurrentUser />
+        <CurrentUser class="current-user" />
         <div class="actions-wrapper">
             <ThemeSwitch />
             <LocalePicker />
@@ -27,9 +27,8 @@ export default {
     padding: 6px 20px;
 
     :deep(.v-toolbar__content) {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr)
     }
 
     :deep(.v-toolbar-title) {
@@ -42,9 +41,15 @@ export default {
 }
 
 .actions-wrapper {
+    justify-self: end;
     display: grid;
     grid-template-columns: auto 180px;
     align-items: center;
     gap: 20px;
+    justify-self: end;
+}
+
+.current-user {
+    justify-self: center;
 }
 </style>
