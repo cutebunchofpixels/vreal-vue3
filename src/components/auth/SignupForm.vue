@@ -55,7 +55,8 @@ export default {
         async handleGoogleClick() {
             try {
                 await signInWithPopup(auth, googleAuthProvider)
-                this.$router.push("currency")
+                const from = this.$router.currentRoute.value.query.from as string
+                this.$router.push({ path: from || "currency", query: { from: undefined } })
             } catch (error) {
                 this.$toast.error(this.$t("unexpectedError", { cause: "while signing-in with Google" }))
             }

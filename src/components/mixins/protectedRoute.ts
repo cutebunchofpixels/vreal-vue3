@@ -10,11 +10,11 @@ export const protectedRoute: ComponentOptions = {
     ...mapState('auth', ['user', 'isReady'])
   },
 
-  async beforeRouteEnter(_, from) {
+  async beforeRouteEnter(to) {
     await auth.authStateReady()
 
     if (!store.state.auth.user) {
-      return { name: 'signin', query: { from: from.path } }
+      return { name: 'signin', query: { from: to.path } }
     }
   },
 

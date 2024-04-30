@@ -13,7 +13,7 @@ export default {
         async handleFormSubmit({ email, password }: SignupFormValues) {
             try {
                 await signInWithEmailAndPassword(auth, email, password)
-                const from = this.$route.query.from?.at(0)
+                const from = this.$router.currentRoute.value.query.from as string
                 this.$router.push({ path: from || "currency", query: { from: undefined } })
             } catch (error) {
                 this.$toast.error(this.$t("unexpectedError", { cause: "while signing-in" }))
