@@ -1,5 +1,4 @@
 <script lang="ts">
-import { useToast } from 'vue-toastification';
 import { mapState } from 'vuex';
 import { signOut } from 'firebase/auth';
 
@@ -8,9 +7,6 @@ import { auth } from '@/firebase';
 export default {
     computed: {
         ...mapState("auth", ["user"]),
-        toast() {
-            return useToast()
-        }
     },
 
     methods: {
@@ -18,7 +14,7 @@ export default {
             try {
                 await signOut(auth)
             } catch (error) {
-                this.toast.error("Unexpected error occured while signing-out. Please, try again")
+                this.$toast.error("Unexpected error occured while signing-out. Please, try again")
             }
         }
     },

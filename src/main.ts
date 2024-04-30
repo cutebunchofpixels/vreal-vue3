@@ -9,9 +9,10 @@ import { i18n } from './i18n'
 import { toastOptions } from './utils/toast/toast'
 
 import '@/assets/index.css'
+import { globalProperties } from './utils/globalProperties'
 
 const app = createApp(App)
-
 app.use(store).use(router).use(vuetify).use(i18n).use(Toast, toastOptions)
+app.config.globalProperties = { ...app.config.globalProperties, ...globalProperties }
 
 app.mount('#app')

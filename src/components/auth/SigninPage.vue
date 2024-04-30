@@ -1,5 +1,4 @@
 <script lang="ts">
-import { useToast } from 'vue-toastification';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import SignupForm, { type SignupFormValues } from './SignupForm.vue';
@@ -10,12 +9,6 @@ export default {
         SignupForm,
     },
 
-    computed: {
-        toast() {
-            return useToast()
-        }
-    },
-
     methods: {
         async handleFormSubmit({ email, password }: SignupFormValues) {
             try {
@@ -23,7 +16,7 @@ export default {
                 const from = this.$route.query.from?.at(0)
                 this.$router.push({ path: from || "currency", query: { from: undefined } })
             } catch (error) {
-                this.toast.error("An unexpected error occured while signing-in. Please, try again")
+                this.$toast.error("An unexpected error occured while signing-in. Please, try again")
             }
         }
     }

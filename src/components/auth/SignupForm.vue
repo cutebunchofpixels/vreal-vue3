@@ -1,6 +1,5 @@
 <script lang="ts">
 import { signInWithPopup } from 'firebase/auth';
-import { useToast } from 'vue-toastification';
 
 import { auth } from '@/firebase';
 import { googleAuthProvider } from '@/firebase/googleAuth';
@@ -46,12 +45,6 @@ export default {
         }
     },
 
-    computed: {
-        toast() {
-            return useToast()
-        }
-    },
-
     methods: {
         handleSubmit(e: SubmitEvent) {
             e.preventDefault()
@@ -64,7 +57,7 @@ export default {
                 await signInWithPopup(auth, googleAuthProvider)
                 this.$router.push("currency")
             } catch (error) {
-                this.toast.error("Unexpected error occured while signing-in with Google. Please, try again")
+                this.$toast.error("Unexpected error occured while signing-in with Google. Please, try again")
             }
         }
     },

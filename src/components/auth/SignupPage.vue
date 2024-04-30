@@ -1,6 +1,5 @@
 <script lang="ts">
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { useToast } from 'vue-toastification';
 
 import SignupForm, { type SignupFormValues } from './SignupForm.vue';
 import { auth } from '@/firebase';
@@ -10,19 +9,13 @@ export default {
         SignupForm,
     },
 
-    computed: {
-        toast() {
-            return useToast()
-        }
-    },
-
     methods: {
         async handleFormSubmit({ email, password }: SignupFormValues) {
             try {
                 await createUserWithEmailAndPassword(auth, email, password)
                 this.$router.push("currency")
             } catch (error) {
-                this.toast.error("An error occured while creating your account. Try again later")
+                this.$toast.error("An error occured while creating your account. Try again later")
             }
         }
     }
