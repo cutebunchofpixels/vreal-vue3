@@ -54,35 +54,33 @@ export default {
     </VRow>
 </template>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 .textfield {
-    & .v-input__prepend {
+    :deep(.v-input__prepend) {
         margin: 0 !important
     }
 
-    & .v-field {
+    :deep(.v-field) {
         width: 240px;
-
-        &__outline {
-            border: 1px solid var(--v-border-color);
-        }
-
-        &--variant-solo {
-            box-shadow: none;
-        }
-
-        &__input {
-            min-height: auto;
-            padding: 10px 10px;
-            line-height: 1;
-        }
-
     }
 
-}
-</style>
+    :deep(.v-field__outline) {
+        border: 1px solid var(--v-border-color);
+    }
 
-<style lang="scss" scoped>
+    :deep(.v-field--variant-solo) {
+        box-shadow: none;
+    }
+
+
+    :deep(.v-field__input) {
+        min-height: auto;
+        padding: 10px 10px;
+        line-height: 1;
+    }
+}
+
 .textfield-prepend-wrapper {
     width: 100%;
     height: 100%;

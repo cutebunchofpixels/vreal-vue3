@@ -21,24 +21,20 @@ export default {
     </VAppBar>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .header {
-    & .v-toolbar__content {
+    flex: 0 0 64px;
+    padding: 6px 20px;
+
+    :deep(.v-toolbar__content) {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
     }
 
-    & .v-toolbar-title {
+    :deep(.v-toolbar-title) {
         flex: unset;
     }
-}
-</style>
-
-<style lang="scss" scoped>
-.header {
-    flex: 0 0 64px;
-    padding: 6px 20px;
 }
 
 .appbar-title {

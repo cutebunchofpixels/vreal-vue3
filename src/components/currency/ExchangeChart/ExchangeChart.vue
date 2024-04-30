@@ -106,27 +106,23 @@ export default {
     </div>
 </template>
 
-<style lang="scss">
-.chart-container {
-    & * {
-        height: 100%
-    }
-
-    .v-skeleton-loader__heading {
-        display: none;
-    }
-
-    .v-skeleton-loader__image {
-        width: 100%;
-        height: 100%
-    }
-}
-</style>
-
 <style lang="scss" scoped>
 .chart-container {
     width: 100%;
     height: 400px;
+
+    :deep(*) {
+        height: 100%
+    }
+
+    :deep(.v-skeleton-loader__heading) {
+        display: none;
+    }
+
+    :deep(.v-skeleton-loader__image) {
+        width: 100%;
+        height: 100%
+    }
 }
 
 .chart {
