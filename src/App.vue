@@ -2,8 +2,6 @@
 import { RouterView } from 'vue-router'
 import { mapMutations, mapState } from 'vuex'
 
-import { auth } from './firebase';
-
 export default {
   components: {
     RouterView
@@ -18,10 +16,6 @@ export default {
       setAuthReady: "setReady"
     })
   },
-
-  mounted() {
-    auth.authStateReady().then(() => this.setAuthReady(true))
-  }
 }
 </script>
 

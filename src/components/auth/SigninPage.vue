@@ -20,7 +20,8 @@ export default {
         async handleFormSubmit({ email, password }: SignupFormValues) {
             try {
                 await signInWithEmailAndPassword(auth, email, password)
-                this.$router.push("currency")
+                const from = this.$route.query.from?.at(0)
+                this.$router.push({ path: from || "currency", query: { from: undefined } })
             } catch (error) {
                 this.toast.error("An unexpected error occured while signing-in. Please, try again")
             }

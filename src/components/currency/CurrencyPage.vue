@@ -6,12 +6,13 @@ import type { PaymentCardInfo } from './PaymentCards/PaymentCard.vue';
 import PaymentCardsList from './PaymentCards/PaymentCardsList.vue';
 import ExchangeChartBlock from './ExchangeChart/ExchangeChartBlock.vue';
 import { INITIAL_END_DATE, INITIAL_START_DATE } from '@/store/currency/constants';
+import { protectedRoute } from '../mixins/protectedRoute';
 
 export default {
     components: {
         IntervalSelectors,
         PaymentCardsList,
-        ExchangeChartBlock
+        ExchangeChartBlock,
     },
 
     data() {
@@ -44,7 +45,10 @@ export default {
         if (this.isEmpty) {
             this.fetchExchangeRates({ startDate: INITIAL_START_DATE, endDate: INITIAL_END_DATE })
         }
-    }
+    },
+
+    beforeRouteEnter: protectedRoute.beforeRouteEnter,
+    mixins: [protectedRoute]
 }
 </script>
 
