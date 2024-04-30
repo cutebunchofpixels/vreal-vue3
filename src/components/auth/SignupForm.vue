@@ -57,7 +57,7 @@ export default {
                 await signInWithPopup(auth, googleAuthProvider)
                 this.$router.push("currency")
             } catch (error) {
-                this.$toast.error("Unexpected error occured while signing-in with Google. Please, try again")
+                this.$toast.error(this.$t("unexpectedError", { cause: "while signing-in with Google" }))
             }
         }
     },

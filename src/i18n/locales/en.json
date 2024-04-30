@@ -10,5 +10,6 @@
     "exchangeRates": "Exchange rates",
     "currentWeek": "Current week",
     "previousWeek": "Previous week",
-    "date": "Date"
+    "date": "Date",
+    "unexpectedError": "An error occured {cause}. Try refreshing the page"
 }

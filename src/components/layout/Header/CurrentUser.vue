@@ -14,7 +14,7 @@ export default {
             try {
                 await signOut(auth)
             } catch (error) {
-                this.$toast.error("Unexpected error occured while signing-out. Please, try again")
+                this.$toast.error(this.$t("unexpectedError", { cause: "while signing-out" }))
             }
         }
     },

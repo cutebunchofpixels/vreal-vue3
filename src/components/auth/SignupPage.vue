@@ -15,7 +15,7 @@ export default {
                 await createUserWithEmailAndPassword(auth, email, password)
                 this.$router.push("currency")
             } catch (error) {
-                this.$toast.error("An error occured while creating your account. Try again later")
+                this.$toast.error(this.$t("unexpectedError", { cause: "while creating a new account" }))
             }
         }
     }

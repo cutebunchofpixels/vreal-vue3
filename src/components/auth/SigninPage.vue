@@ -16,7 +16,7 @@ export default {
                 const from = this.$route.query.from?.at(0)
                 this.$router.push({ path: from || "currency", query: { from: undefined } })
             } catch (error) {
-                this.$toast.error("An unexpected error occured while signing-in. Please, try again")
+                this.$toast.error(this.$t("unexpectedError", { cause: "while signing-in" }))
             }
         }
     }
