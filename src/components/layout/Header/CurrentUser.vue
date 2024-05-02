@@ -24,7 +24,7 @@ export default {
 <template>
     <div v-if="user" class="current-user">
         <VAvatar :class="{ avatar: !user.photoURL }">
-            <VImg v-if="user.photoURL" :src="user.photoURL" />
+            <VImg v-if="user.photoURL" :src="user.photoURL" referrerpolicy="no-referrer" />
             <VIcon v-else icon="mdi-account-circle" />
         </VAvatar>
         <div>
