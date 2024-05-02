@@ -11,5 +11,9 @@
     "currentWeek": "Current week",
     "previousWeek": "Previous week",
     "date": "Date",
-    "unexpectedError": "An error occured {cause}. Try refreshing the page"
+    "unexpectedError": "An error occured {cause}. Try refreshing the page",
+    "male": "Male",
+    "female": "Female",
+    "active": "Active",
+    "inactive": "Inactive"
 }
