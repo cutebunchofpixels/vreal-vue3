@@ -1,7 +1,8 @@
 import type { ActionTree } from 'vuex'
 import { useToast } from 'vue-toastification'
 
-import { USERS_PAGE_SIZE, type UsersState } from './state'
+import { type UsersState } from './state'
+import { USERS_PAGE_SIZE } from './constants'
 import type { GorestUser } from '@/types/models/Users/GorestUser'
 import { UserService } from '@/api/users/UsersService'
 import { i18n } from '@/i18n'
@@ -22,9 +23,10 @@ export const usersActions: ActionTree<UsersState, {}> = {
     commit('setFilters', filters)
 
     try {
-      const { users, totalPages } = await UserService.getAll(filters, page, pageSize)
+      const { users, totalItems } = await UserService.getAll(filters, page, pageSize)
       commit('setUsers', users)
-      commit('setPagination', { page, totalPages })
+      commit('setPagination', { page, pageSize })
+      commit('setTotalItems', totalItems)
       commit('setError', null)
     } catch (error) {
       commit('setUsers', [])

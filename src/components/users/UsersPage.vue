@@ -1,10 +1,25 @@
 <script lang="ts">
+import { mapActions, mapGetters } from 'vuex';
 import { protectedRoute } from '../mixins/protectedRoute';
 import UsersTable from './UsersTable.vue';
 
 export default {
+    computed: {
+        ...mapGetters('users', ['isEmpty'])
+    },
+
+    methods: {
+        ...mapActions('users', ["fetchUsers"])
+    },
+
     components: {
         UsersTable,
+    },
+
+    mounted() {
+        if (this.isEmpty) {
+            this.fetchUsers()
+        }
     },
 
     beforeRouteEnter: protectedRoute.beforeRouteEnter,

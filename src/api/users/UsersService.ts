@@ -26,7 +26,7 @@ export class UserService {
     })
 
     return {
-      totalPages: response.meta.pagination.pages,
+      totalItems: response.meta.pagination.total,
       users: response.data
     }
   }

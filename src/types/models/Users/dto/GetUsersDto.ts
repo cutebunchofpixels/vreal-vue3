@@ -6,6 +6,7 @@ export interface GetUsersDto {
       page: number
       limit: number
       pages: number
+      total: number
     }
   }
   data: GorestUser[]

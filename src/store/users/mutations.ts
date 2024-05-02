@@ -22,8 +22,8 @@ export const usersMutations: MutationTree<UsersState> = {
     state.pageSize = pageSize
   },
 
-  setTotalPages(state, totalPages: number) {
-    state.totalPages = totalPages
+  setTotalItems(state, totalItems: number) {
+    state.totalItems = totalItems
   },
 
   setLoading(state, isLoading: boolean) {
