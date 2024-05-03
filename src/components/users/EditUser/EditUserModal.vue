@@ -1,5 +1,6 @@
 <script lang="ts">
 import EditUserForm from './EditUserForm.vue';
+import { keepModalFocus } from '@/components/mixins/keepModalFocus';
 
 export default {
     props: {
@@ -16,25 +17,26 @@ export default {
         }
     },
 
+    emits: {
+        'update:model-value': (newValue: boolean) => true,
+        submit: () => true,
+    },
+
     components: {
         EditUserForm,
     },
 
-    emits: {
-        'update:model-value': (newValue: boolean) => true,
-        submit: () => true,
-    }
+    mixins: [keepModalFocus],
 }
 </script>
 
 <template>
     <VDialog class="edit-user-modal" :model-value="modelValue"
-        @update:model-value="(newValue) => $emit('update:model-value', newValue)">
-        <VCard class="edit-user-card" :loading="isLoading" :disabled="isLoading">
+        @update:model-value="(newValue) => $emit('update:model-value', newValue)" retain-focus>
+        <VCard class="edit-user-card" :loading="isLoading" :disabled="isLoading" ref="child">
             <VCardTitle>Edit user</VCardTitle>
             <VCardText class="card-body">
-                <EditUserForm :userId="userId"
-                    @update:loading="(value) => { isLoading = value; console.log('update-loading') }"
+                <EditUserForm :userId="userId" @update:loading="(value) => { isLoading = value }"
                     @submit="$emit('submit')" />
             </VCardText>
         </VCard>
