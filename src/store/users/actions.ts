@@ -40,7 +40,7 @@ export const usersActions: ActionTree<UsersState, {}> = {
 }
 
 function mergeParams(state: UsersState, payload: FetchUsersPayload): Required<FetchUsersPayload> {
-  const filters = payload.filters ? { ...payload.filters, ...state.filters } : state.filters
+  const filters = payload.filters ? { ...state.filters, ...payload.filters } : state.filters
 
   return {
     filters: filters,
