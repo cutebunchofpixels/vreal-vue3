@@ -1,17 +1,17 @@
 <script lang="ts">
-import type { GorestUser } from '@/types/models/Users/GorestUser';
 import EditUserModal from './EditUser/EditUserModal.vue';
+import type { GorestUser } from '@/types/models/Users/GorestUser';
 import type { FetchUsersPayload } from '@/store/users/actions';
 
 export default {
     data() {
         return {
             headers: [
-                { width: "20%", sortable: false, title: 'Id', key: 'id' },
-                { width: "20%", sortable: false, title: 'Name', key: 'name' },
+                { width: "10%", sortable: false, title: 'Id', key: 'id' },
+                { width: "40%", sortable: false, title: 'Name', key: 'name' },
                 { width: "20%", sortable: false, title: 'Gender', key: 'gender' },
                 { width: "20%", sortable: false, title: 'Status', key: 'status' },
-                { width: "20%", sortable: false, title: 'Actions', key: 'actions' },
+                { width: "10%", sortable: false, title: 'Actions', key: 'actions' },
             ],
             isEditModalVisible: false,
             selectedUserId: undefined as number | undefined,
@@ -42,8 +42,13 @@ export default {
             this.selectedUserId = item.id
         },
 
-        handlePageChange(nextPage: number) {
-            this.fetchUsers({ page: nextPage })
+        async handlePageChange(nextPage: number) {
+            await this.fetchUsers({ page: nextPage })
+        },
+
+        async refreshUsers() {
+            await this.fetchUsers({})
+            this.selectedUserId = undefined
         }
     },
 
@@ -55,7 +60,7 @@ export default {
 
 <template>
     <EditUserModal :model-value="Boolean(selectedUserId)" @update:model-value="selectedUserId = undefined"
-        :userId="selectedUserId!" />
+        :userId="selectedUserId!" @submit="refreshUsers" />
     <VDataTableServer :items-length="totalItems" :headers="headers" :items="users" class="users-table"
         density="comfortable" :loading="isLoading" @update:page="handlePageChange">
         <!-- eslint-disable-next-line vue/valid-v-slot -->

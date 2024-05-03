@@ -37,7 +37,7 @@ export class UserService {
   }
 
   static async update(id: number, dto: Partial<GorestUser>) {
-    this.axiosInstance.patch(`/${id}`, {
+    await this.axiosInstance.patch(`/${id}`, {
       ...dto
     })
   }
