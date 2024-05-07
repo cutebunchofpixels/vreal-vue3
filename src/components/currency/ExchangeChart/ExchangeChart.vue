@@ -83,13 +83,23 @@ export default {
         }
     },
 
-    watch: {
-        chartOptions(options: ChartOptions) {
+    methods: {
+        renderChart(options: ChartOptions) {
             if (options.data) {
                 const chart = this.$refs.chart as HTMLDivElement;
                 Plotly.Plots.resize(chart)
                 newPlot(chart, options.data, options.layout, options.config);
             }
+        }
+    },
+
+    mounted() {
+        this.renderChart(this.chartOptions)
+    },
+
+    watch: {
+        chartOptions(options: ChartOptions) {
+            this.renderChart(options)
         }
     },
 }
