@@ -49,17 +49,21 @@ export default {
         async refreshUsers() {
             await this.fetchUsers({})
             this.selectedUserId = undefined
+        },
+
+        handleCloseModal() {
+            this.selectedUserId = undefined
         }
     },
 
     components: {
-        EditUserModal
+        EditUserModal,
     },
 }
 </script>
 
 <template>
-    <EditUserModal :model-value="Boolean(selectedUserId)" @update:model-value="selectedUserId = undefined"
+    <EditUserModal :model-value="Boolean(selectedUserId)" @update:model-value="handleCloseModal"
         :userId="selectedUserId!" @submit="refreshUsers" />
     <VDataTableServer :items-length="totalItems" :headers="headers" :items="users" class="users-table"
         density="comfortable" :loading="isLoading" @update:page="handlePageChange">

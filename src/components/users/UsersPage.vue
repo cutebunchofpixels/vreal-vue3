@@ -1,5 +1,6 @@
 <script lang="ts">
 import { mapActions, mapGetters } from 'vuex';
+
 import { protectedRoute } from '../mixins/protectedRoute';
 import UsersTable from './UsersTable.vue';
 import UsersFilters from './UsersFilters.vue';

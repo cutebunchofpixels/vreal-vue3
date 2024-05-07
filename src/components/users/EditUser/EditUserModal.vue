@@ -1,5 +1,6 @@
 <script lang="ts">
 import EditUserForm from './EditUserForm.vue';
+import ModalWindow from '@/components/ui/ModalWindow/ModalWindow.vue';
 import { keepModalFocus } from '@/components/mixins/keepModalFocus';
 
 export default {
@@ -24,15 +25,16 @@ export default {
 
     components: {
         EditUserForm,
+        ModalWindow
     },
 
-    mixins: [keepModalFocus],
+    mixins: [keepModalFocus]
 }
 </script>
 
 <template>
-    <VDialog class="edit-user-modal" :model-value="modelValue"
-        @update:model-value="(newValue) => $emit('update:model-value', newValue)" retain-focus>
+    <ModalWindow max-width="600" class="edit-user-modal" :model-value="modelValue"
+        @update:model-value="(newValue) => $emit('update:model-value', newValue)">
         <VCard class="edit-user-card" :loading="isLoading" :disabled="isLoading" ref="child">
             <VCardTitle>Edit user</VCardTitle>
             <VCardText class="card-body">
@@ -40,20 +42,10 @@ export default {
                     @submit="$emit('submit')" />
             </VCardText>
         </VCard>
-    </VDialog>
+    </ModalWindow>
 </template>
 
 <style lang="scss" scoped>
-.edit-user-modal {
-    max-width: 600px;
-
-    :deep(.v-overlay__content) {
-        margin: 0px;
-        max-width: 100%;
-        width: 100%;
-    }
-}
-
 .edit-user-card {
     padding: 20px;
     width: 100%;

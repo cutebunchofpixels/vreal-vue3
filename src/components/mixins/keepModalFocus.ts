@@ -53,11 +53,7 @@ export const keepModalFocus: ComponentOptions = {
     async modelValue(next) {
       await nextTick()
       const modalChild = this.$refs.child.$el as HTMLElement
-      if (!modalChild) {
-        throw new Error(
-          'Modal child ref is undefined. Most likely, you forgot to pass child ref to the first child of the VDialog component'
-        )
-      }
+
       if (next) {
         modalChild.addEventListener('keydown', this.handleKeyPress)
       } else {
