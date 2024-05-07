@@ -29,6 +29,10 @@ export default {
 
         totalItems() {
             return this.$store.state.users.totalItems
+        },
+
+        currentPage() {
+            return this.$store.state.users.page
         }
 
     },
@@ -46,13 +50,12 @@ export default {
             await this.fetchUsers({ page: nextPage })
         },
 
-        async refreshUsers() {
-            await this.fetchUsers({})
+        handleCloseModal() {
             this.selectedUserId = undefined
         },
 
-        handleCloseModal() {
-            this.selectedUserId = undefined
+        handleRowClick(_: PointerEvent, { item }: { item: GorestUser }) {
+            this.$router.push(`users/${item.id}`)
         }
     },
 
@@ -64,12 +67,13 @@ export default {
 
 <template>
     <EditUserModal :model-value="Boolean(selectedUserId)" @update:model-value="handleCloseModal"
-        :userId="selectedUserId!" @submit="refreshUsers" />
+        :userId="selectedUserId!" @submit="selectedUserId = undefined" />
     <VDataTableServer :items-length="totalItems" :headers="headers" :items="users" class="users-table"
-        density="comfortable" :loading="isLoading" @update:page="handlePageChange">
+        density="comfortable" :loading="isLoading" @update:page="handlePageChange" @click:row="handleRowClick"
+        :page="currentPage">
         <!-- eslint-disable-next-line vue/valid-v-slot -->
         <template v-slot:item.actions="{ item }">
-            <VBtn icon="mdi-pencil" size="x-small" variant="tonal" @click="editItem(item)" />
+            <VBtn icon="mdi-pencil" size="x-small" variant="tonal" @click.stop="editItem(item)" />
         </template>
         <template v-slot:no-data>
             No data

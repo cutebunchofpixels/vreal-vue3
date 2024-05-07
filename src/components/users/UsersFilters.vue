@@ -32,9 +32,9 @@ export default {
 
         async handleOptionChange() {
             if (this.option === "all") {
-                this.fetchUsers({ filters: { gender: undefined } })
+                this.fetchUsers({ filters: { gender: undefined }, page: 1 })
             } else {
-                this.fetchUsers({ filters: { gender: this.option } })
+                this.fetchUsers({ filters: { gender: this.option }, page: 1 })
             }
         }
     }

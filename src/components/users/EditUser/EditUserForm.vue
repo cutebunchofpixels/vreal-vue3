@@ -6,6 +6,8 @@ import { Gender } from '@/types/models/Users/Gender';
 import { Status } from '@/types/models/Users/Status';
 import { getEnumOptions } from '@/utils/getEnumOptions';
 import type { GorestUser } from '@/types/models/Users/GorestUser';
+import { AxiosError } from 'axios';
+import type { FetchUsersPayload } from '@/store/users/actions';
 
 
 export type EditUserFormValues = Omit<GorestUser, "id">
@@ -44,6 +46,10 @@ export default {
     },
 
     methods: {
+        async fetchUsers(payload: FetchUsersPayload) {
+            await this.$store.dispatch("users/fetchUsers", payload)
+        },
+
         async handleSubmit() {
             if (!this.userId) {
                 return
@@ -53,6 +59,7 @@ export default {
 
             try {
                 await UserService.update(this.userId, this.user)
+                await this.fetchUsers({})
                 this.$emit("submit")
             } catch (error) {
                 this.$toast.error(this.$t("unexpectedError", { cause: "while updating user" }))
@@ -73,7 +80,13 @@ export default {
                         this.initialUser = { ...user }
                         this.user = user
                     } catch (error) {
-                        this.$toast.error(this.$t("unexpectedError", { cause: "while fetching user" }))
+                        if (error instanceof AxiosError) {
+                            if (error.response?.status === 404) {
+                                this.$router.replace({ name: "notFound" })
+                            }
+                        } else {
+                            this.$toast.error(this.$t("unexpectedError", { cause: "while fetching user" }))
+                        }
                     } finally {
                         this.$emit('update:loading', false)
                     }
