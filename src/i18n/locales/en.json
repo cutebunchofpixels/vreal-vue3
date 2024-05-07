@@ -27,5 +27,7 @@
     "noData": "No data",
     "submit": "Submit",
     "all": "All",
-    "email": "Email"
+    "email": "Email",
+    "currentUser": "Current user",
+    "signout": "Signout"
 }

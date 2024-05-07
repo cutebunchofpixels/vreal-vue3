@@ -3,8 +3,15 @@ import { mapState } from 'vuex';
 import { signOut } from 'firebase/auth';
 
 import { auth } from '@/firebase';
+import CurrentUserPopover from './CurrentUserPopover.vue';
 
 export default {
+    data() {
+        return {
+            isPopoverVisible: false,
+        }
+    },
+
     computed: {
         ...mapState("auth", ["user"]),
     },
@@ -18,6 +25,10 @@ export default {
             }
         }
     },
+
+    components: {
+        CurrentUserPopover
+    }
 }
 </script>
 
@@ -27,10 +38,13 @@ export default {
             <VImg v-if="user.photoURL" :src="user.photoURL" referrerpolicy="no-referrer" />
             <VIcon v-else icon="mdi-account-circle" />
         </VAvatar>
-        <div>
-            {{ user.displayName || user.email }}
-        </div>
-        <VBtn icon="mdi-logout" variant="elevated" @click="handleSignout" />
+        <template v-if="$vuetify.display.mdAndUp">
+            <div>
+                {{ user.displayName || user.email }}
+            </div>
+            <VBtn icon="mdi-logout" variant="elevated" @click="handleSignout" />
+        </template>
+        <CurrentUserPopover v-else v-model="isPopoverVisible" :handle-signout="handleSignout" />
     </div>
 </template>
 

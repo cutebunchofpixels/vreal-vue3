@@ -26,5 +26,7 @@
     "inactive": "לֹא פָּעִיל",
     "submit": "שלח",
     "all": "את כל",
-    "email": "אימייל"
+    "email": "אימייל",
+    "currentUser": "משתמש נוכחי",
+    "signout": "התנתק"
 }
