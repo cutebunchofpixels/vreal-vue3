@@ -1,5 +1,5 @@
 <script lang="ts">
-import EditUserModal from './EditUser/EditUserModal.vue';
+import EditUserModal from '../EditUser/EditUserModal.vue';
 import type { GorestUser } from '@/types/models/Users/GorestUser';
 import type { FetchUsersPayload } from '@/store/users/actions';
 

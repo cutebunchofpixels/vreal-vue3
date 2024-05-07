@@ -2,8 +2,8 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import { protectedRoute } from '../mixins/protectedRoute';
-import UsersTable from './UsersTable.vue';
-import UsersFilters from './UsersFilters.vue';
+import UsersTable from './UsersTable/UsersTable.vue';
+import UsersFilters from './UsersTable/UsersFilters.vue';
 
 export default {
     computed: {
