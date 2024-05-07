@@ -10,5 +10,20 @@
     "exchangeRates": "שערי חליפין",
     "currentWeek": "השבוע הנוכחי",
     "previousWeek": "שבוע שעבר",
-    "date": "תַאֲרִיך"
+    "date": "תַאֲרִיך",
+    "usersPage": "דף משתמשים",
+    "filterByGender": "סינון לפי מין:",
+    "id": "תְעוּדַת זֶהוּת",
+    "name": "שֵׁם",
+    "gender": "מִין",
+    "status": "סטָטוּס",
+    "actions": "פעולות",
+    "editUser": "ערוך משתמש",
+    "noData": "אין מידע",
+    "male": "זָכָר",
+    "female": "נְקֵבָה",
+    "active": "פָּעִיל",
+    "inactive": "לֹא פָּעִיל",
+    "submit": "שלח",
+    "all": "את כל"
 }

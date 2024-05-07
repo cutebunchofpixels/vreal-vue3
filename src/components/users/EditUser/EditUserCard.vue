@@ -25,7 +25,7 @@ export default {
 
 <template>
     <VCard class="edit-user-card" :loading="isLoading" :disabled="isLoading" ref="child">
-        <VCardTitle>Edit user</VCardTitle>
+        <VCardTitle>{{ $t('editUser') }}</VCardTitle>
         <VCardText class="card-body">
             <EditUserForm :userId="userId" @update:loading="(value) => { isLoading = value }"
                 @submit="$emit('submit')" />

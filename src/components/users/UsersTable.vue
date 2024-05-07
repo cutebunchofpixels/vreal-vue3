@@ -6,19 +6,22 @@ import type { FetchUsersPayload } from '@/store/users/actions';
 export default {
     data() {
         return {
-            headers: [
-                { width: "10%", sortable: false, title: 'Id', key: 'id' },
-                { width: "40%", sortable: false, title: 'Name', key: 'name' },
-                { width: "20%", sortable: false, title: 'Gender', key: 'gender' },
-                { width: "20%", sortable: false, title: 'Status', key: 'status' },
-                { width: "10%", sortable: false, title: 'Actions', key: 'actions' },
-            ],
             isEditModalVisible: false,
             selectedUserId: undefined as number | undefined,
         }
     },
 
     computed: {
+        headers() {
+            return [
+                { width: "10%", sortable: false, title: this.$t("id"), key: 'id' },
+                { width: "40%", sortable: false, title: this.$t("name"), key: 'name' },
+                { width: "20%", sortable: false, title: this.$t("gender"), key: 'gender' },
+                { width: "20%", sortable: false, title: this.$t("status"), key: 'status' },
+                { width: "10%", sortable: false, title: this.$t("actions"), key: 'actions' },
+            ]
+        },
+
         users() {
             return this.$store.state.users.users
         },
@@ -70,16 +73,24 @@ export default {
         :userId="selectedUserId!" @submit="selectedUserId = undefined" />
     <VDataTableServer :items-length="totalItems" :headers="headers" :items="users" class="users-table"
         density="comfortable" :loading="isLoading" @update:page="handlePageChange" @click:row="handleRowClick"
-        :page="currentPage">
+        :page="currentPage" :items-per-page-options="[]">
         <!-- eslint-disable-next-line vue/valid-v-slot -->
         <template v-slot:item.actions="{ item }">
             <VBtn icon="mdi-pencil" size="x-small" variant="tonal" @click.stop="editItem(item)" />
         </template>
         <template v-slot:no-data>
-            No data
+            {{ $t("noData") }}
         </template>
         <template v-slot:loading>
             <VSkeletonLoader type="table-row@10" />
+        </template>
+        <!-- eslint-disable-next-line vue/valid-v-slot -->
+        <template v-slot:item.gender="{ item }">
+            {{ $t(item.gender) }}
+        </template>
+        <!-- eslint-disable-next-line vue/valid-v-slot -->
+        <template v-slot:item.status="{ item }">
+            {{ $t(item.status) }}
         </template>
     </VDataTableServer>
 </template>

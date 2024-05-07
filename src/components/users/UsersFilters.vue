@@ -17,7 +17,7 @@ export default {
         filterOptions() {
             return [
                 {
-                    label: "All",
+                    label: this.$t('all'),
                     value: "all"
                 },
                 ...getEnumOptions<Gender>(Gender, label => this.$t(label))
@@ -43,7 +43,7 @@ export default {
 
 <template>
     <div class="filters-wrapper">
-        <div>Filter by gender:</div>
+        <div>{{ $t("filterByGender") }}</div>
         <VSelect v-model="option" hide-details variant="outlined" :items="filterOptions" item-title="label"
             item-value="value" @update:model-value="handleOptionChange" />
     </div>

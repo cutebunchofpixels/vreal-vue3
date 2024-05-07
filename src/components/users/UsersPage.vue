@@ -32,7 +32,7 @@ export default {
 
 <template>
     <div class="users-page-wrapper">
-        <h1>Users page</h1>
+        <h1>{{ $t("usersPage") }}</h1>
         <div class="filters-wrapper">
             <UsersFilters />
         </div>

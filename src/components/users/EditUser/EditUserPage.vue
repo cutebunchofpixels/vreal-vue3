@@ -17,7 +17,7 @@ export default {
       return this.$router.currentRoute.value
     },
 
-    userId(): number {
+    userId() {
       return Number(this.currentRoute.params.id)
     }
   },
@@ -27,7 +27,7 @@ export default {
 
 <template>
   <div class="edit-user-wrapper">
-    <h1>Edit user</h1>
+    <h1>{{ $t('editUser') }}</h1>
     <EditUserCard :userId="userId" @submit="handleSubmit" />
   </div>
 </template>

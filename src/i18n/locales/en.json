@@ -15,5 +15,16 @@
     "male": "Male",
     "female": "Female",
     "active": "Active",
-    "inactive": "Inactive"
+    "inactive": "Inactive",
+    "usersPage": "Users page",
+    "filterByGender": "Filter by gender:",
+    "id": "Id",
+    "name": "Name",
+    "gender": "Gender",
+    "status": "Status",
+    "actions": "Actions",
+    "editUser": "Edit user",
+    "noData": "No data",
+    "submit": "Submit",
+    "all": "All"
 }

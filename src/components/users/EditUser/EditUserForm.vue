@@ -106,15 +106,15 @@ export default {
 
 <template>
     <VForm @submit="handleSubmit" @submit.prevent>
-        <VTextField variant="outlined" v-model="user.name" label="Name" />
-        <VTextField variant="outlined" v-model="user.email" label="Email" type="email" />
-        <VSelect variant="outlined" v-model="user.gender" :items="genderOptions" label="Gender" item-title="label"
-            item-value="value" />
-        <VSelect variant="outlined" v-model="user.status" :items="statusOptions" label="Status" item-title="label"
-            item-value="value" />
+        <VTextField variant="outlined" v-model="user.name" :label="$t('name')" />
+        <VTextField variant="outlined" v-model="user.email" :label="$t('email')" type="email" />
+        <VSelect variant="outlined" v-model="user.gender" :items="genderOptions" :label="$t('gender')"
+            item-title="label" item-value="value" />
+        <VSelect variant="outlined" v-model="user.status" :items="statusOptions" :label="$t('status')"
+            item-title="label" item-value="value" />
         <div class="submit-button-wrapper">
             <VBtn type="submit" class="submit-button" :disabled="isSubmitDisabled">
-                Submit
+                {{ $t('submit') }}
             </VBtn>
         </div>
     </VForm>
