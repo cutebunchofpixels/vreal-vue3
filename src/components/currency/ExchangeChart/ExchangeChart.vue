@@ -1,12 +1,12 @@
 <script lang="ts">
 import { mapState } from 'vuex';
-import Plotly, { newPlot, type Config, type Data, type Layout } from 'plotly.js';
+import Plotly, { newPlot, type Config, type Data, type Layout, type PlotData } from 'plotly.js';
 
 import { Theme } from '@/types/Theme';
 import type { CurrencyExchangeRates } from '@/types/models/CurrencyExchange/CurrencyExchangeRates';
 
 interface ChartOptions {
-    data: Data[],
+    data: PlotData[],
     layout: Partial<Layout>,
     config: Partial<Config>
 }
@@ -85,7 +85,7 @@ export default {
 
     methods: {
         renderChart(options: ChartOptions) {
-            if (options.data) {
+            if (options.data && options.data[0].x.length > 0) {
                 const chart = this.$refs.chart as HTMLDivElement;
                 Plotly.Plots.resize(chart)
                 newPlot(chart, options.data, options.layout, options.config);

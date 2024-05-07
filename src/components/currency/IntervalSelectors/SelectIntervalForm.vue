@@ -60,7 +60,6 @@ export default {
 
         async handleFormSubmit(e: SubmitEvent) {
             e.preventDefault()
-            console.log("SUBMIT")
             const { startDate, endDate } = this
             await this.fetchExchangeRates({ startDate, endDate })
         }
