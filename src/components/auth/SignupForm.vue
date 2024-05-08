@@ -3,6 +3,7 @@ import { signInWithPopup } from 'firebase/auth';
 
 import { auth } from '@/firebase';
 import { googleAuthProvider } from '@/firebase/googleAuth';
+import PasswordField from '../ui/PasswordField/PasswordField.vue';
 
 export interface SignupFormValues {
     email: string;
@@ -18,7 +19,6 @@ export default {
         return {
             email: "",
             password: "",
-            showPassword: false,
             rules: {
                 email: [
                     (value: string) => {
@@ -65,6 +65,10 @@ export default {
 
     emits: {
         submit: (values: SignupFormValues) => true,
+    },
+
+    components: {
+        PasswordField
     }
 }
 </script>
@@ -73,12 +77,12 @@ export default {
     <VForm class="signup-form" @submit="handleSubmit">
         <VTextField variant="outlined" v-model="email" label="Email" hide-details="auto" type="email"
             :rules="rules.email" />
-        <VTextField variant="outlined" v-model="password" label="Password" hide-details="auto"
-            :type="showPassword ? 'text' : 'password'" :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append-inner="showPassword = !showPassword" :rules="rules.password" />
+        <PasswordField variant="outlined" v-model="password" label="Password" hide-details="auto"
+            :rules="rules.password" />
         <VBtn rounded variant="outlined" type="submit">{{ submitCaption }}</VBtn>
         <VDivider />
-        <VBtn rounded variant="outlined" prepend-icon="mdi-google" @click="handleGoogleClick">Google</VBtn>
+        <VBtn rounded variant="outlined" prepend-icon="mdi-google" @click="handleGoogleClick"
+            aria-label="Sign in with Google">Google</VBtn>
     </VForm>
 </template>
 
