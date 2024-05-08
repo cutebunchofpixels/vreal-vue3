@@ -43,9 +43,9 @@ export default {
 
 <template>
     <div class="filters-wrapper">
-        <div>{{ $t("filterByGender") }}</div>
+        <div id="filtersCaption">{{ $t("filterByGender") }}</div>
         <VSelect v-model="option" hide-details variant="outlined" :items="filterOptions" item-title="label"
-            item-value="value" @update:model-value="handleOptionChange" />
+            item-value="value" @update:model-value="handleOptionChange" aria-label="Select a gender to filter by" />
     </div>
 </template>
 

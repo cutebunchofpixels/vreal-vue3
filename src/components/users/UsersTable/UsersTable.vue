@@ -76,7 +76,8 @@ export default {
         :page="currentPage" :items-per-page-options="[]">
         <!-- eslint-disable-next-line vue/valid-v-slot -->
         <template v-slot:item.actions="{ item }">
-            <VBtn icon="mdi-pencil" size="x-small" variant="tonal" @click.stop="editItem(item)" />
+            <VBtn icon="mdi-pencil" size="x-small" variant="tonal" @click.stop="editItem(item)"
+                aria-label="Open edit user modal" />
         </template>
         <template v-slot:no-data>
             {{ $t("noData") }}

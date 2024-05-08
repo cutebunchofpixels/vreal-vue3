@@ -109,9 +109,9 @@ export default {
         <VTextField variant="outlined" v-model="user.name" :label="$t('name')" />
         <VTextField variant="outlined" v-model="user.email" :label="$t('email')" type="email" />
         <VSelect variant="outlined" v-model="user.gender" :items="genderOptions" :label="$t('gender')"
-            item-title="label" item-value="value" />
+            item-title="label" item-value="value" aria-label="Select gender" />
         <VSelect variant="outlined" v-model="user.status" :items="statusOptions" :label="$t('status')"
-            item-title="label" item-value="value" />
+            item-title="label" item-value="value" aria-label="Select status" />
         <div class="submit-button-wrapper">
             <VBtn type="submit" class="submit-button" :disabled="isSubmitDisabled">
                 {{ $t('submit') }}
