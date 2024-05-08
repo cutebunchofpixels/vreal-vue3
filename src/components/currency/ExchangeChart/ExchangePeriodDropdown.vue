@@ -44,15 +44,15 @@ export default {
 </script>
 
 <template>
-    <VBtn ref="button">
+    <VBtn ref="button" aria-label="Select exchange interval">
         {{ $t("interval") }}
         <VMenu activator="parent">
-            <v-list>
-                <v-list-item v-for="option in options" :key="option.label" :value="option.label"
+            <VList>
+                <VListItem v-for="option in options" :key="option.label" :value="option.label"
                     @click="handleOptionSelect(option.value)">
-                    <v-list-item-title>{{ option.label }}</v-list-item-title>
-                </v-list-item>
-            </v-list>
+                    <VListItemTitle>{{ option.label }}</VListItemTitle>
+                </VListItem>
+            </VList>
         </VMenu>
     </VBtn>
 </template>

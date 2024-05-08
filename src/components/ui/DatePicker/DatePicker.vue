@@ -38,7 +38,7 @@ export default {
         </VCol>
         <VCol cols="12" sm="auto" class="flex-grow-1">
             <VTextField type="text" :model-value="displayDate" class="textfield" readonly clearable variant="solo"
-                hide-details="auto" @click:clear="$emit('clear')">
+                hide-details="auto" @click:clear="$emit('clear')" v-bind="$attrs">
                 <template v-slot:prepend>
                     <div class="textfield-prepend-wrapper">
                         <VIcon icon="mdi-calendar-blank-outline" class="prepend-icon" />

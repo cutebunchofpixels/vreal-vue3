@@ -72,12 +72,13 @@ export default {
         <VRow justify="space-between">
             <VCol cols="12" sm="6" md="auto" class="flex-grow-1">
                 <DatePicker v-model="startDate" :label="$t('startDate')"
-                    :allowed-dates="(startDate) => isValidStartDate(startDate, endDate)"
-                    @clear="startDate = undefined" />
+                    :allowed-dates="(startDate) => isValidStartDate(startDate, endDate)" @clear="startDate = undefined"
+                    aria-label="Select start date" />
             </VCol>
             <VCol cols="12" sm="6" md="auto" class="flex-grow-1">
                 <DatePicker v-model="endDate" :label="$t('endDate')"
-                    :allowed-dates="(endDate) => isValidEndDate(startDate, endDate)" @clear="endDate = undefined" />
+                    :allowed-dates="(endDate) => isValidEndDate(startDate, endDate)" @clear="endDate = undefined"
+                    aria-label="Select end date" />
             </VCol>
             <VCol cols="12" md="auto" class="d-flex justify-end">
                 <VBtn :disabled="!(startDate && endDate)" type="submit">
