@@ -27,8 +27,8 @@ export default {
         <VCardTitle>
             Create a new account
         </VCardTitle>
-        <VCardSubtitle>
-            <RouterLink to="signin">Use existing account</RouterLink>
+        <VCardSubtitle class="subtitle">
+            <CustomRouterLink to="signin">Use existing account</CustomRouterLink>
         </VCardSubtitle>
         <VCardText>
             <SignupForm submit-caption="Sign up" @submit="handleFormSubmit" />
@@ -41,5 +41,9 @@ export default {
     max-width: 600px;
     width: 100%;
     padding: 20px;
+}
+
+.subtitle {
+    padding-block: 5px;
 }
 </style>
