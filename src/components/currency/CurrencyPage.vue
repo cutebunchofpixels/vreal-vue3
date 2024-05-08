@@ -53,7 +53,7 @@ export default {
 </script>
 
 <template>
-    <div class="pa-4 container">
+    <div class="pa-4 container" v-focus-first>
         <h1>{{ $t("currencyExchange") }}</h1>
         <IntervalSelectors />
         <PaymentCardsList :cards="cards" />

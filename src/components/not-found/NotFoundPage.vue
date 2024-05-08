@@ -1,5 +1,5 @@
 <template>
-    <div class="not-found-wrapper">
+    <div class="not-found-wrapper" v-focus-first>
         <div class="status">404</div>
         <div class="message">Requested page does not exist</div>
         <VBtn @click="$router.replace('/')">Back to index</VBtn>

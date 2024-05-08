@@ -31,7 +31,7 @@ export default {
 </script>
 
 <template>
-    <div class="users-page-wrapper">
+    <div class="users-page-wrapper" v-focus-first>
         <h1>{{ $t("usersPage") }}</h1>
         <div class="filters-wrapper">
             <UsersFilters />

@@ -23,7 +23,7 @@ export default {
 </script>
 
 <template>
-    <VCard class="signup-card">
+    <VCard class="signup-card" v-focus-first>
         <VCardTitle>
             Create a new account
         </VCardTitle>

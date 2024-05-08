@@ -26,7 +26,7 @@ export default {
 </script>
 
 <template>
-  <div class="edit-user-wrapper">
+  <div class="edit-user-wrapper" v-focus-first>
     <h1>{{ $t('editUser') }}</h1>
     <EditUserCard :userId="userId" @submit="handleSubmit" />
   </div>

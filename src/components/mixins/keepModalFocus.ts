@@ -1,12 +1,8 @@
 import { nextTick, type ComponentOptions } from 'vue'
 
-export const keepModalFocus: ComponentOptions = {
-  computed: {
-    focusableElementsSelector() {
-      return 'button, a, input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])'
-    }
-  },
+import { FOCUSABLE_ELEMENTS_SELECTOR } from '@/utils/constants'
 
+export const keepModalFocus: ComponentOptions = {
   methods: {
     handleKeyPress(e: KeyboardEvent) {
       if (e.shiftKey || e.key !== 'Tab') {
@@ -14,9 +10,11 @@ export const keepModalFocus: ComponentOptions = {
       }
 
       const modalChild = this.$refs.child.$el as HTMLElement
-      const focusableChildren = modalChild.querySelectorAll<HTMLElement>(
-        this.focusableElementsSelector
+
+      const focusableChildren = Array.from(
+        modalChild.querySelectorAll<HTMLElement>(FOCUSABLE_ELEMENTS_SELECTOR)
       )
+
       const firstFocusable = this.getFirstFocusableChild(focusableChildren)
       const lastFocusable = this.getLastFocusableChild(focusableChildren)
 
@@ -31,21 +29,11 @@ export const keepModalFocus: ComponentOptions = {
     },
 
     getLastFocusableChild(children: HTMLElement[]) {
-      for (let i = children.length - 1; i > 0; i--) {
-        //@ts-ignore
-        if (!children[i].disabled) {
-          return children[i]
-        }
-      }
+      return children.at(-1)
     },
 
     getFirstFocusableChild(children: HTMLElement[]) {
-      for (let i = 0; i < children.length; i++) {
-        //@ts-ignore
-        if (!children[i].disabled) {
-          return children[i]
-        }
-      }
+      return children.at(0)
     }
   },
 

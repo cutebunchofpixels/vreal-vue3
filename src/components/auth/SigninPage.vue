@@ -24,7 +24,7 @@ export default {
 </script>
 
 <template>
-    <VCard class="signin-card">
+    <VCard class="signin-card" v-focus-first>
         <VCardTitle>
             Sign in to your account
         </VCardTitle>
