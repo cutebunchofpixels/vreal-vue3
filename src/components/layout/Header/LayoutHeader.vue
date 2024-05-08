@@ -38,17 +38,12 @@ export default {
     :deep(.v-toolbar-title) {
         flex: unset;
     }
-
-    @include abstract.mixins-respond(sm) {
-        :deep(.v-toolbar__content) {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr)
-        }
-    }
 }
 
 .appbar-title {
     margin: 0;
+    max-width: 220px;
+    width: 100%
 }
 
 .actions-wrapper {
@@ -58,6 +53,8 @@ export default {
     align-items: center;
     gap: 20px;
     justify-self: end;
+    max-width: 220px;
+    width: 100%
 }
 
 .current-user {
