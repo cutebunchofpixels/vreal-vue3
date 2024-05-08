@@ -23,10 +23,10 @@ export default {
 
 <template>
     <VMenu :model-value="modelValue" @update:model-value="newValue => $emit('update:model-value', newValue)"
-        :close-on-content-click="false" :target="$refs.target as HTMLButtonElement">
-        <template v-slot:activator>
+        :close-on-content-click="false">
+        <template v-slot:activator="{ props }">
             <VBtn icon="mdi-menu-down" density="compact" @click="$emit('update:model-value', !modelValue)"
-                ref="target" />
+                aria-label="Expand popover with current user" v-bind="props" />
         </template>
         <VCard min-width="300">
             <VList :tabindex="-1">

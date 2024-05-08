@@ -34,7 +34,7 @@ export default {
 
 <template>
     <div v-if="user" class="current-user">
-        <VAvatar :class="{ avatar: !user.photoURL }">
+        <VAvatar :class="{ avatar: !user.photoURL }" aria-label="User avatar">
             <VImg v-if="user.photoURL" :src="user.photoURL" referrerpolicy="no-referrer" />
             <VIcon v-else icon="mdi-account-circle" />
         </VAvatar>
@@ -42,7 +42,7 @@ export default {
             <div>
                 {{ user.displayName || user.email }}
             </div>
-            <VBtn icon="mdi-logout" variant="elevated" @click="handleSignout" />
+            <VBtn icon="mdi-logout" variant="elevated" @click="handleSignout" aria-label="Signout" />
         </template>
         <CurrentUserPopover v-else v-model="isPopoverVisible" :handle-signout="handleSignout" />
     </div>

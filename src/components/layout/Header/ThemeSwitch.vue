@@ -19,7 +19,8 @@ export default {
 </script>
 
 <template>
-    <VSwitch inset class="theme-switch" :model-value="isChecked" @update:model-value="toggleTheme">
+    <VSwitch inset class="theme-switch" :model-value="isChecked" @update:model-value="toggleTheme"
+        aria-label="Toggle theme">
         <template v-slot:label>
             <VIcon icon="mdi-theme-light-dark" />
         </template>
