@@ -1,40 +1,37 @@
-<script lang="ts">
-export default {
-    data() {
-        return {
-            modalTrigger: null as HTMLElement | null
-        }
-    },
+<script setup lang="ts">
+import { ref, watch, nextTick } from 'vue';
 
-    props: {
-        modelValue: Boolean,
-        focusTriggerAfterClose: {
-            type: Boolean,
-            default: true,
-        }
-    },
-
-    methods: {
-        handleModalToggle() {
-            if (this.focusTriggerAfterClose) {
-                queueMicrotask(() => { this.modalTrigger?.focus() })
-            }
-            this.$emit("update:model-value", !this.modelValue)
-        }
-    },
-
-    watch: {
-        modelValue: {
-            handler(next) {
-                if (next) {
-                    this.modalTrigger = document.activeElement as HTMLElement
-                }
-            },
-
-            immediate: true,
-        }
-    },
+export interface ModalWindowProps {
+    modelValue: boolean,
+    focusTriggerAfterClose?: boolean
 }
+
+interface ModalWindowEmits {
+    (e: 'update:model-value', newValue: boolean): void,
+}
+
+const props = withDefaults(defineProps<ModalWindowProps>(), { focusTriggerAfterClose: true })
+const emit = defineEmits<ModalWindowEmits>()
+
+const modalTrigger = ref<HTMLElement | null>(null)
+
+async function handleModalToggle() {
+    if (props.focusTriggerAfterClose) {
+        await nextTick()
+        setTimeout(() => { modalTrigger.value?.focus() }, 0)
+    }
+
+    emit("update:model-value", !props.modelValue)
+}
+
+watch(() => props.modelValue,
+    (next) => {
+        if (next) {
+            modalTrigger.value = document.activeElement as HTMLElement
+        }
+    },
+    { immediate: true }
+)
 </script>
 
 <template>

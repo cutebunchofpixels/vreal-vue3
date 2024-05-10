@@ -1,11 +1,7 @@
-<script lang="ts">
-export default {
-    data() {
-        return {
-            isPasswordVisible: false
-        }
-    },
-}
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const isPasswordVisible = ref<boolean>(false)
 </script>
 
 <template>

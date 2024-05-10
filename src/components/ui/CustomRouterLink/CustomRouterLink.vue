@@ -1,12 +1,10 @@
-<script lang="ts">
-export default {
-    props: {
-        to: {
-            type: String,
-            required: true,
-        }
-    }
+<script setup lang="ts">
+export interface CustomRouterLinkProps {
+    to: string
 }
+
+defineProps<CustomRouterLinkProps>()
+
 </script>
 
 <template>

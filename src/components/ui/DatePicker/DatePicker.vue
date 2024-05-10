@@ -1,32 +1,23 @@
-<script lang="ts">
+<script setup lang="ts">
 import { Dayjs } from 'dayjs';
-import type { PropType } from 'vue';
+import { computed } from 'vue';
 
-export default {
-    props: {
-        modelValue: {
-            type: Dayjs,
-        },
-        label: {
-            type: String,
-        },
-        allowedDates: {
-            type: Function as PropType<(value: Dayjs) => boolean>,
-            default: () => true
-        }
-    },
-
-    computed: {
-        displayDate() {
-            return this.modelValue ? this.modelValue.format("YYYY-MM-DD") : ''
-        }
-    },
-
-    emits: {
-        'update:model-value': (newValue: Dayjs) => true,
-        clear: () => true,
-    }
+export interface DatePickerProps {
+    modelValue: Dayjs | null,
+    label: string,
+    allowedDates?: (value: Dayjs) => boolean
 }
+
+interface DatePickerEmits {
+    (e: 'update:model-value', newValue: Dayjs | null): void,
+    (e: 'clear'): void,
+}
+
+const props = withDefaults(defineProps<DatePickerProps>(), { allowedDates: () => true })
+defineEmits<DatePickerEmits>()
+
+const displayDate = computed(() => props.modelValue ? props.modelValue.format("YYYY-MM-DD") : '')
+
 </script>
 
 <template>
