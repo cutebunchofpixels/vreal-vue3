@@ -29,5 +29,11 @@
     "all": "All",
     "email": "Email",
     "currentUser": "Current user",
-    "signout": "Signout"
+    "signup": "Sign up",
+    "signin": "Sign in",
+    "signout": "Sign out",
+    "password": "Password",
+    "signinToYourAccount": "Sign in to your account",
+    "createNewAccount": "Create a new account",
+    "useExistingAccount": "Use existing account"
 }

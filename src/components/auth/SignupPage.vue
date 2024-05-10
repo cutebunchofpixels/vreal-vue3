@@ -1,23 +1,22 @@
-<script lang="ts">
+<script setup lang="ts">
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 import SignupForm, { type SignupFormValues } from './SignupForm.vue';
 import { auth } from '@/firebase';
 
-export default {
-    components: {
-        SignupForm,
-    },
+const router = useRouter()
+const toast = useToast()
+const { t } = useI18n()
 
-    methods: {
-        async handleFormSubmit({ email, password }: SignupFormValues) {
-            try {
-                await createUserWithEmailAndPassword(auth, email, password)
-                this.$router.push("currency")
-            } catch (error) {
-                this.$toast.error(this.$t("unexpectedError", { cause: "while creating a new account" }))
-            }
-        }
+async function handleFormSubmit({ email, password }: SignupFormValues) {
+    try {
+        await createUserWithEmailAndPassword(auth, email, password)
+        router.push("currency")
+    } catch (error) {
+        toast.error(t("unexpectedError", { cause: "while creating a new account" }))
     }
 }
 </script>
@@ -25,13 +24,13 @@ export default {
 <template>
     <VCard class="signup-card" v-focus-first>
         <VCardTitle>
-            Create a new account
+            {{ t('createNewAccount') }}
         </VCardTitle>
         <VCardSubtitle class="subtitle">
-            <CustomRouterLink to="signin">Use existing account</CustomRouterLink>
+            <CustomRouterLink to="signin">{{ t('useExistingAccount') }}</CustomRouterLink>
         </VCardSubtitle>
         <VCardText>
-            <SignupForm submit-caption="Sign up" @submit="handleFormSubmit" />
+            <SignupForm :submit-caption="t('signup')" @submit="handleFormSubmit" />
         </VCardText>
     </VCard>
 </template>

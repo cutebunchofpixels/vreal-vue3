@@ -1,24 +1,23 @@
-<script lang="ts">
+<script setup lang="ts">
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification';
+import { useI18n } from 'vue-i18n';
 
 import SignupForm, { type SignupFormValues } from './SignupForm.vue';
 import { auth } from '@/firebase';
 
-export default {
-    components: {
-        SignupForm,
-    },
+const router = useRouter()
+const toast = useToast()
+const { t } = useI18n()
 
-    methods: {
-        async handleFormSubmit({ email, password }: SignupFormValues) {
-            try {
-                await signInWithEmailAndPassword(auth, email, password)
-                const from = this.$router.currentRoute.value.query.from as string
-                this.$router.push({ path: from || "currency", query: { from: undefined } })
-            } catch (error) {
-                this.$toast.error(this.$t("unexpectedError", { cause: "while signing-in" }))
-            }
-        }
+async function handleFormSubmit({ email, password }: SignupFormValues) {
+    try {
+        await signInWithEmailAndPassword(auth, email, password)
+        const from = router.currentRoute.value.query.from as string
+        router.push({ path: from || "currency", query: { from: undefined } })
+    } catch (error) {
+        toast.error(t("unexpectedError", { cause: "while signing-in" }))
     }
 }
 </script>
@@ -26,13 +25,13 @@ export default {
 <template>
     <VCard class="signin-card" v-focus-first>
         <VCardTitle>
-            Sign in to your account
+            {{ t('signinToYourAccount') }}
         </VCardTitle>
         <VCardSubtitle class="subtitle">
-            <CustomRouterLink to="signup" class="link">Create a new account</CustomRouterLink>
+            <CustomRouterLink to="signup" class="link">{{ t("createNewAccount") }}</CustomRouterLink>
         </VCardSubtitle>
         <VCardText>
-            <SignupForm submit-caption="Sign in" @submit="handleFormSubmit" />
+            <SignupForm :submit-caption="t('signin')" @submit="handleFormSubmit" />
         </VCardText>
     </VCard>
 </template>

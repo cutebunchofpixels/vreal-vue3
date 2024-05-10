@@ -1,5 +1,9 @@
-<script lang="ts">
+<script setup lang="ts">
 import { signInWithPopup } from 'firebase/auth';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification';
+import { useI18n } from 'vue-i18n';
 
 import { auth } from '@/firebase';
 import { googleAuthProvider } from '@/firebase/googleAuth';
@@ -10,74 +14,62 @@ export interface SignupFormValues {
     password: string;
 }
 
-export default {
-    props: {
-        submitCaption: String,
+export interface SignupFormEmits {
+    (e: 'submit', values: SignupFormValues): void,
+}
+
+export interface SignupFormProps {
+    submitCaption: string
+}
+
+defineProps<SignupFormProps>()
+const emit = defineEmits<SignupFormEmits>()
+
+const router = useRouter()
+const toast = useToast()
+const { t } = useI18n()
+
+const values = ref<SignupFormValues>({ email: '', password: '' })
+const rules = {
+    email: [(value: string) => {
+        if (value) return true
+
+        return 'Email is a requred field'
     },
+    (value: string) => {
+        if (/.+@.+\..+/.test(value)) return true
 
-    data() {
-        return {
-            email: "",
-            password: "",
-            rules: {
-                email: [
-                    (value: string) => {
-                        if (value) return true
-
-                        return 'Email is a requred field'
-                    },
-                    (value: string) => {
-                        if (/.+@.+\..+/.test(value)) return true
-
-                        return 'Email must be valid'
-                    },
-                ],
-                password: [
-                    (value: string) => {
-                        if (value) {
-                            return true
-                        }
-
-                        return "Password is a required field"
-                    }
-                ],
-            }
+        return 'Email must be valid'
+    }],
+    password: [(value: string) => {
+        if (value) {
+            return true
         }
-    },
 
-    methods: {
-        handleSubmit(e: SubmitEvent) {
-            e.preventDefault()
-            const values = { email: this.email, password: this.password }
-            this.$emit("submit", values)
-        },
+        return "Password is a required field"
+    }],
+}
 
-        async handleGoogleClick() {
-            try {
-                await signInWithPopup(auth, googleAuthProvider)
-                const from = this.$router.currentRoute.value.query.from as string
-                this.$router.push({ path: from || "currency", query: { from: undefined } })
-            } catch (error) {
-                this.$toast.error(this.$t("unexpectedError", { cause: "while signing-in with Google" }))
-            }
-        }
-    },
+function handleSubmit() {
+    emit("submit", values.value)
+}
 
-    emits: {
-        submit: (values: SignupFormValues) => true,
-    },
-
-    components: {
-        PasswordField
+async function handleGoogleClick() {
+    try {
+        await signInWithPopup(auth, googleAuthProvider)
+        const from = router.currentRoute.value.query.from as string
+        router.push({ path: from || "currency", query: { from: undefined } })
+    } catch (error) {
+        toast.error(t("unexpectedError", { cause: "while signing-in with Google" }))
     }
 }
 </script>
 
 <template>
-    <VForm class="signup-form" @submit="handleSubmit">
-        <VTextField variant="outlined" v-model="email" label="Email" hide-details="auto" type="email"
+    <VForm class="signup-form" @submit.prevent="handleSubmit">
+        <VTextField variant="outlined" v-model="values.email" :label="t('email')" hide-details="auto" type="email"
             :rules="rules.email" />
-        <PasswordField variant="outlined" v-model="password" label="Password" hide-details="auto"
+        <PasswordField variant="outlined" v-model="values.password" :label="t('password')" hide-details="auto"
             :rules="rules.password" />
         <VBtn rounded variant="outlined" type="submit">{{ submitCaption }}</VBtn>
         <VDivider />

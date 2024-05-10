@@ -28,5 +28,11 @@
     "all": "את כל",
     "email": "אימייל",
     "currentUser": "משתמש נוכחי",
-    "signout": "התנתק"
+    "signup": "הירשם",
+    "signin": "להתחבר",
+    "signout": "התנתק",
+    "password": "סיסמה",
+    "signinToYourAccount": "תתחבר לחשבון שלך",
+    "createNewAccount": "צור חשבון חדש",
+    "useExistingAccount": "השתמשי בחשבון קיים"
 }

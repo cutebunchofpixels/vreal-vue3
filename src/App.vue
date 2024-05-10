@@ -1,22 +1,12 @@
-<script lang="ts">
+<script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { mapMutations, mapState } from 'vuex'
+import { useStore } from 'vuex';
+import type { StoreState } from './store';
+import { computed } from 'vue';
 
-export default {
-  components: {
-    RouterView
-  },
+const store = useStore<StoreState>()
+const theme = computed(() => store.state.config.theme)
 
-  computed: {
-    ...mapState('config', ['theme'])
-  },
-
-  methods: {
-    ...mapMutations("auth", {
-      setAuthReady: "setReady"
-    })
-  },
-}
 </script>
 
 <template>
