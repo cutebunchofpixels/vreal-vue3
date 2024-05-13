@@ -1,47 +1,42 @@
-<script lang="ts">
-import { mapActions, mapGetters } from 'vuex';
+<script setup lang="ts">
+import { useStore } from 'vuex';
+import { computed, onMounted } from 'vue';
 
-import { protectedRoute } from '../mixins/protectedRoute';
+
 import UsersTable from './UsersTable/UsersTable.vue';
 import UsersFilters from './UsersTable/UsersFilters.vue';
+import ProtectedRoute from '../hoc/ProtectedRoute.vue';
+import type { StoreState } from '@/store';
+import type { FetchUsersPayload } from '@/store/users/actions';
 
-export default {
-    computed: {
-        ...mapGetters('users', ['isEmpty'])
-    },
+const store = useStore<StoreState>()
 
-    methods: {
-        ...mapActions('users', ["fetchUsers"])
-    },
+const isEmpty = computed(() => store.getters['users/isEmpty'])
+const fetchUsers = (payload: FetchUsersPayload) => store.dispatch('users/fetchUsers', payload)
 
-    mounted() {
-        if (this.isEmpty) {
-            this.fetchUsers()
-        }
-    },
+onMounted(async () => {
+    if (!isEmpty.value) {
+        return
+    }
 
-    components: {
-        UsersTable,
-        UsersFilters
-    },
-
-    beforeRouteEnter: protectedRoute.beforeRouteEnter,
-    mixins: [protectedRoute]
-}
+    await fetchUsers({})
+})
 </script>
 
 <template>
-    <div class="users-page-wrapper" v-focus-first>
-        <h1>{{ $t("usersPage") }}</h1>
-        <div class="filters-wrapper">
-            <UsersFilters />
+    <ProtectedRoute>
+        <div class="users-page-wrapper" v-focus-first>
+            <h1>{{ $t("usersPage") }}</h1>
+            <div class="filters-wrapper">
+                <UsersFilters />
+            </div>
+            <VCard>
+                <VCardText>
+                    <UsersTable />
+                </VCardText>
+            </VCard>
         </div>
-        <VCard>
-            <VCardText>
-                <UsersTable />
-            </VCardText>
-        </VCard>
-    </div>
+    </ProtectedRoute>
 </template>
 
 <style lang="scss" scoped>

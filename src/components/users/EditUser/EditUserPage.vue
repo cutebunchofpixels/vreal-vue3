@@ -1,28 +1,14 @@
-<script lang="ts">
+<script setup lang="ts">
+import { useRouter } from 'vue-router';
+import { computed } from 'vue';
+
 import EditUserCard from './EditUserCard.vue';
 
-export default {
-  components: {
-    EditUserCard
-  },
+const router = useRouter()
 
-  methods: {
-    handleSubmit() {
-      this.$router.push('/users')
-    }
-  },
+const userId = computed(() => Number(router.currentRoute.value.params.id))
+const handleSubmit = () => router.push('/users')
 
-  computed: {
-    currentRoute() {
-      return this.$router.currentRoute.value
-    },
-
-    userId() {
-      return Number(this.currentRoute.params.id)
-    }
-  },
-
-}
 </script>
 
 <template>

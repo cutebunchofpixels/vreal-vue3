@@ -1,42 +1,34 @@
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+
 import { Gender } from '@/types/models/Users/Gender';
 import { getEnumOptions } from '@/utils/getEnumOptions';
 import type { FetchUsersPayload } from '@/store/users/actions';
+import type { StoreState } from '@/store';
 
 type FilterOption = Gender | "all"
 
-export default {
-    data() {
-        return {
-            option: "all" as FilterOption
-        }
+const store = useStore<StoreState>()
+const { t } = useI18n()
+
+const option = ref<FilterOption>('all')
+const filterOptions = [
+    {
+        label: t('all'),
+        value: "all"
     },
+    ...getEnumOptions<Gender>(Gender, label => t(label))
+]
 
+const fetchUsers = (payload: FetchUsersPayload) => store.dispatch('users/fetchUsers', payload)
 
-    computed: {
-        filterOptions() {
-            return [
-                {
-                    label: this.$t('all'),
-                    value: "all"
-                },
-                ...getEnumOptions<Gender>(Gender, label => this.$t(label))
-            ]
-        }
-    },
-
-    methods: {
-        async fetchUsers(payload: FetchUsersPayload) {
-            await this.$store.dispatch('users/fetchUsers', payload)
-        },
-
-        async handleOptionChange() {
-            if (this.option === "all") {
-                this.fetchUsers({ filters: { gender: undefined }, page: 1 })
-            } else {
-                this.fetchUsers({ filters: { gender: this.option }, page: 1 })
-            }
-        }
+async function handleOptionChange() {
+    if (option.value === "all") {
+        fetchUsers({ filters: { gender: undefined }, page: 1 })
+    } else {
+        fetchUsers({ filters: { gender: option.value }, page: 1 })
     }
 }
 </script>

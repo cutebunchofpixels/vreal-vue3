@@ -1,71 +1,38 @@
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+
 import EditUserModal from '../EditUser/EditUserModal.vue';
 import type { GorestUser } from '@/types/models/Users/GorestUser';
 import type { FetchUsersPayload } from '@/store/users/actions';
 
-export default {
-    data() {
-        return {
-            isEditModalVisible: false,
-            selectedUserId: undefined as number | undefined,
-        }
-    },
+import type { StoreState } from '@/store';
 
-    computed: {
-        headers() {
-            return [
-                { width: "10%", sortable: false, title: this.$t("id"), key: 'id' },
-                { width: "40%", sortable: false, title: this.$t("name"), key: 'name' },
-                { width: "20%", sortable: false, title: this.$t("gender"), key: 'gender' },
-                { width: "20%", sortable: false, title: this.$t("status"), key: 'status' },
-                { width: "10%", sortable: false, title: this.$t("actions"), key: 'actions' },
-            ]
-        },
 
-        users() {
-            return this.$store.state.users.users
-        },
+const { t } = useI18n()
+const store = useStore<StoreState>()
+const router = useRouter()
 
-        isLoading() {
-            return this.$store.state.users.isLoading
-        },
+const selectedUserId = ref<number | undefined>(undefined)
+const headers = computed(() => [
+    { width: "10%", sortable: false, title: t("id"), key: 'id' },
+    { width: "40%", sortable: false, title: t("name"), key: 'name' },
+    { width: "20%", sortable: false, title: t("gender"), key: 'gender' },
+    { width: "20%", sortable: false, title: t("status"), key: 'status' },
+    { width: "10%", sortable: false, title: t("actions"), key: 'actions' },
+])
+const users = computed(() => store.state.users.users)
+const isLoading = computed(() => store.state.users.isLoading)
+const totalItems = computed(() => store.state.users.totalItems)
+const currentPage = computed(() => store.state.users.page)
 
-        totalItems() {
-            return this.$store.state.users.totalItems
-        },
-
-        currentPage() {
-            return this.$store.state.users.page
-        }
-
-    },
-
-    methods: {
-        async fetchUsers(payload: FetchUsersPayload) {
-            await this.$store.dispatch("users/fetchUsers", payload)
-        },
-
-        editItem(item: GorestUser) {
-            this.selectedUserId = item.id
-        },
-
-        async handlePageChange(nextPage: number) {
-            await this.fetchUsers({ page: nextPage })
-        },
-
-        handleCloseModal() {
-            this.selectedUserId = undefined
-        },
-
-        handleRowClick(_: PointerEvent, { item }: { item: GorestUser }) {
-            this.$router.push(`users/${item.id}`)
-        }
-    },
-
-    components: {
-        EditUserModal,
-    },
-}
+const fetchUsers = (payload: FetchUsersPayload) => store.dispatch("users/fetchUsers", payload)
+const editItem = (item: GorestUser) => selectedUserId.value = item.id
+const handlePageChange = async (nextPage: number) => await fetchUsers({ page: nextPage })
+const handleCloseModal = () => selectedUserId.value = undefined
+const handleRowClick = (_: PointerEvent, { item }: { item: GorestUser }) => router.push(`users/${item.id}`)
 </script>
 
 <template>

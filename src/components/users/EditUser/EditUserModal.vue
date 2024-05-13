@@ -1,26 +1,19 @@
-<script lang="ts">
+<script setup lang="ts">
 import ModalWindow from '@/components/ui/ModalWindow/ModalWindow.vue';
 import EditUserCard from './EditUserCard.vue';
 
-export default {
-    props: {
-        modelValue: {
-            type: Boolean,
-            required: true,
-        },
-        userId: Number,
-    },
-
-    emits: {
-        'update:model-value': (newValue: boolean) => true,
-        submit: () => true,
-    },
-
-    components: {
-        EditUserCard,
-        ModalWindow
-    },
+interface EditUserModalProps {
+    modelValue: boolean
+    userId?: number
 }
+
+interface EditUserModalEmits {
+    (e: 'update:model-value', newValue: boolean): void
+    (e: 'submit'): void
+}
+
+defineProps<EditUserModalProps>()
+defineEmits<EditUserModalEmits>()
 </script>
 
 <template>

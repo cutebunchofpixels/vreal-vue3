@@ -1,26 +1,20 @@
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue';
 import EditUserForm from './EditUserForm.vue';
 
-export default {
-    data() {
-        return {
-            isLoading: false,
-        }
-    },
-
-    props: {
-        userId: Number
-    },
-
-    emits: {
-        'update:model-value': (newValue: boolean) => true,
-        submit: () => true,
-    },
-
-    components: {
-        EditUserForm
-    }
+interface EditUserCardProps {
+    userId?: number
 }
+
+interface EditUserCardEmits {
+    (e: 'update:model-value', newValue: boolean): void,
+    (e: 'submit'): void,
+}
+
+defineProps<EditUserCardProps>()
+defineEmits<EditUserCardEmits>()
+
+const isLoading = ref<boolean>(false)
 </script>
 
 <template>

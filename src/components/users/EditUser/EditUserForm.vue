@@ -1,107 +1,96 @@
-<script lang="ts">
+<script setup lang="ts">
 import { isEqual } from 'lodash';
+import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
+import { computed, ref, watchEffect } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+import { AxiosError } from 'axios';
 
 import { UserService } from '@/api/users/UsersService';
 import { Gender } from '@/types/models/Users/Gender';
 import { Status } from '@/types/models/Users/Status';
 import { getEnumOptions } from '@/utils/getEnumOptions';
 import type { GorestUser } from '@/types/models/Users/GorestUser';
-import { AxiosError } from 'axios';
 import type { FetchUsersPayload } from '@/store/users/actions';
+import type { StoreState } from '@/store';
+
 
 
 export type EditUserFormValues = Omit<GorestUser, "id">
 
-export default {
-    data() {
-        return {
-            user: {
-                name: '',
-                email: '',
-                gender: Gender.Male,
-                status: Status.Active
-            } as EditUserFormValues,
-            initialUser: {} as EditUserFormValues,
-            isSubmitDisabled: true,
-        }
-    },
+interface EditUserFormProps {
+    userId?: number
+}
 
-    computed: {
-        genderOptions() {
-            return getEnumOptions<Gender>(Gender, (label) => this.$t(label))
-        },
+interface EditUserFormEmits {
+    (e: 'update:loading', isLoading: boolean): void,
+    (e: 'submit'): void,
+}
 
-        statusOptions() {
-            return getEnumOptions<Status>(Status, (label) => this.$t(label))
-        },
-    },
+const props = defineProps<EditUserFormProps>()
+const emit = defineEmits<EditUserFormEmits>()
 
-    props: {
-        userId: Number
-    },
+const { t } = useI18n()
+const store = useStore<StoreState>()
+const toast = useToast()
+const router = useRouter()
 
-    emits: {
-        'update:loading': (isLoading: boolean) => true,
-        submit: () => true
-    },
+const defaulFormValues = {
+    name: '',
+    email: '',
+    gender: Gender.Male,
+    status: Status.Active
+}
 
-    methods: {
-        async fetchUsers(payload: FetchUsersPayload) {
-            await this.$store.dispatch("users/fetchUsers", payload)
-        },
+const user = ref<EditUserFormValues>(defaulFormValues)
+const initialUser = ref<EditUserFormValues>(defaulFormValues)
+const isSubmitDisabled = computed(() => isEqual(user.value, initialUser.value))
+const genderOptions = getEnumOptions<Gender>(Gender, (label) => t(label))
+const statusOptions = getEnumOptions<Gender>(Gender, (label) => t(label))
 
-        async handleSubmit() {
-            if (!this.userId) {
-                return
-            }
+const fetchUsers = (payload: FetchUsersPayload) => store.dispatch("users/fetchUsers", payload)
 
-            this.$emit('update:loading', true)
+async function handleSubmit() {
+    if (!props.userId) {
+        return
+    }
 
-            try {
-                await UserService.update(this.userId, this.user)
-                await this.fetchUsers({})
-                this.$emit("submit")
-            } catch (error) {
-                this.$toast.error(this.$t("unexpectedError", { cause: "while updating user" }))
-            } finally {
-                this.$emit('update:loading', false)
-            }
-        }
-    },
+    emit('update:loading', true)
 
-    watch: {
-        userId: {
-            async handler(next) {
-                if (next) {
-                    this.$emit('update:loading', true)
-
-                    try {
-                        const user = await UserService.getById(next)
-                        this.initialUser = { ...user }
-                        this.user = user
-                    } catch (error) {
-                        if (error instanceof AxiosError) {
-                            if (error.response?.status === 404) {
-                                this.$router.replace({ name: "notFound" })
-                            }
-                        } else {
-                            this.$toast.error(this.$t("unexpectedError", { cause: "while fetching user" }))
-                        }
-                    } finally {
-                        this.$emit('update:loading', false)
-                    }
-                }
-            },
-            immediate: true
-        },
-        user: {
-            handler(next) {
-                this.isSubmitDisabled = isEqual(next, this.initialUser)
-            },
-            deep: true
-        }
+    try {
+        await UserService.update(props.userId, user.value)
+        await fetchUsers({})
+        emit("submit")
+    } catch (error) {
+        toast.error(t("unexpectedError", { cause: "while updating user" }))
+    } finally {
+        emit('update:loading', false)
     }
 }
+
+watchEffect(async () => {
+    if (props.userId) {
+        emit('update:loading', true)
+
+        try {
+            const fetchedUser = await UserService.getById(props.userId)
+            initialUser.value = { ...fetchedUser }
+            user.value = fetchedUser
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                if (error.response?.status === 404) {
+                    router.replace({ name: "notFound" })
+                }
+            } else {
+                toast.error(t("unexpectedError", { cause: "while fetching user" }))
+            }
+        } finally {
+            emit('update:loading', false)
+        }
+    }
+})
+
 </script>
 
 <template>
