@@ -1,21 +1,15 @@
-<script lang="ts">
-import { mapActions, mapState } from 'vuex';
+<script setup lang="ts">
+import { useStore } from 'vuex';
 
 import { Theme } from '@/types/Theme';
+import type { StoreState } from '@/store';
+import { computed } from 'vue';
 
+const store = useStore<StoreState>()
 
-export default {
-    computed: {
-        ...mapState("config", ['theme']),
-        isChecked() {
-            return this.theme === Theme.Dark
-        }
-    },
-
-    methods: {
-        ...mapActions("config", ['toggleTheme'])
-    }
-}
+const theme = computed(() => store.state.config.theme)
+const isChecked = computed(() => theme.value === Theme.Dark)
+const toggleTheme = () => store.dispatch('config/toggleTheme')
 </script>
 
 <template>

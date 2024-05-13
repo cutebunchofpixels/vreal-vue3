@@ -1,24 +1,24 @@
-<script lang="ts">
-import type { PropType } from 'vue';
-import { mapState } from 'vuex';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
-export default {
-    props: {
-        modelValue: {
-            type: Boolean,
-            required: true,
-        },
+import type { StoreState } from '@/store';
 
-        handleSignout: {
-            type: Function as PropType<() => Promise<void>>,
-            required: true,
-        },
-    },
-
-    computed: {
-        ...mapState("auth", ["user"]),
-    }
+interface CurrentUserPopoverProps {
+    modelValue: boolean;
+    handleSignout: () => Promise<void>
 }
+
+interface CurrentUserPopoverEmits {
+    (e: 'update:model-value', newValue: boolean): void,
+}
+
+defineProps<CurrentUserPopoverProps>()
+defineEmits<CurrentUserPopoverEmits>()
+
+const store = useStore<StoreState>()
+
+const user = computed(() => store.state.auth.user!)
 </script>
 
 <template>
@@ -30,7 +30,7 @@ export default {
         </template>
         <VCard min-width="300">
             <VList :tabindex="-1">
-                <VListItem :title="user.displayName || user.email" :subtitle="$t('currentUser')" />
+                <VListItem :title="user.displayName || user.email || 'Username'" :subtitle="$t('currentUser')" />
             </VList>
             <VDivider />
             <VCardActions>

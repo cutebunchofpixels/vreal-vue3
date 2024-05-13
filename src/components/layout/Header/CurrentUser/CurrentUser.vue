@@ -1,35 +1,29 @@
-<script lang="ts">
-import { mapState } from 'vuex';
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
+import { useToast } from 'vue-toastification';
+import { useI18n } from 'vue-i18n';
 import { signOut } from 'firebase/auth';
 
 import { auth } from '@/firebase';
 import CurrentUserPopover from './CurrentUserPopover.vue';
+import type { StoreState } from '@/store';
 
-export default {
-    data() {
-        return {
-            isPopoverVisible: false,
-        }
-    },
+const store = useStore<StoreState>()
+const toast = useToast()
+const { t } = useI18n()
 
-    computed: {
-        ...mapState("auth", ["user"]),
-    },
+const isPopoverVisible = ref<boolean>(false)
+const user = computed(() => store.state.auth.user!)
 
-    methods: {
-        async handleSignout() {
-            try {
-                await signOut(auth)
-            } catch (error) {
-                this.$toast.error(this.$t("unexpectedError", { cause: "while signing-out" }))
-            }
-        }
-    },
-
-    components: {
-        CurrentUserPopover
+async function handleSignout() {
+    try {
+        await signOut(auth)
+    } catch (error) {
+        toast.error(t("unexpectedError", { cause: "while signing-out" }))
     }
 }
+
 </script>
 
 <template>

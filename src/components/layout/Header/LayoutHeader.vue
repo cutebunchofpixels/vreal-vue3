@@ -1,14 +1,7 @@
-<script lang="ts">
+<script setup lang="ts">
 import CurrentUser from './CurrentUser/CurrentUser.vue';
 import LocalePicker from './LocalePicker.vue';
 import ThemeSwitch from './ThemeSwitch.vue';
-
-export default {
-
-    components: {
-        ThemeSwitch, LocalePicker, CurrentUser
-    },
-}
 </script>
 
 <template>
