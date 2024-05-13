@@ -11,8 +11,8 @@ import type { FetchExchangeRatesPayload } from '@/store/currency/actions';
 
 const store = useStore<StoreState>()
 
-const loadedStartDate = computed(() => store.getters.loadedStartDate)
-const loadedEndDate = computed(() => store.getters.loadedEndDate)
+const loadedStartDate = computed(() => store.getters['currency/startDate'])
+const loadedEndDate = computed(() => store.getters['currency/endDate'])
 const startDate = ref<Dayjs | null>(loadedStartDate.value || INITIAL_START_DATE)
 const endDate = ref<Dayjs | null>(loadedEndDate.value || INITIAL_END_DATE)
 const fetchExchangeRates = (payload: FetchExchangeRatesPayload) => store.dispatch('currency/fetchExchangeRates', payload)
