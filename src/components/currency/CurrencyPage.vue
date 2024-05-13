@@ -1,64 +1,53 @@
-<script lang="ts">
-import { mapActions, mapGetters } from 'vuex';
+<script setup lang="ts">
+import { useStore } from 'vuex';
 
 import IntervalSelectors from './IntervalSelectors/IntervalSelectors.vue';
 import type { PaymentCardInfo } from './PaymentCards/PaymentCard.vue';
 import PaymentCardsList from './PaymentCards/PaymentCardsList.vue';
 import ExchangeChartBlock from './ExchangeChart/ExchangeChartBlock.vue';
 import { INITIAL_END_DATE, INITIAL_START_DATE } from '@/store/currency/constants';
-import { protectedRoute } from '../mixins/protectedRoute';
+import { computed, onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import type { StoreState } from '@/store';
+import type { FetchExchangeRatesPayload } from '@/store/currency/actions';
+import ProtectedRoute from '../hoc/ProtectedRoute.vue';
 
-export default {
-    components: {
-        IntervalSelectors,
-        PaymentCardsList,
-        ExchangeChartBlock,
-    },
+const { t } = useI18n()
+const store = useStore<StoreState>()
 
-    data() {
-        return {
-            cards: [
-                {
-                    value: 75000,
-                    type: 'currency',
-                    caption: this.$t("totalRevenue"),
-                },
-                { value: 16, type: 'currency', caption: this.$t("averagePayment") },
-                {
-                    value: 15,
-                    type: 'percentage',
-                    caption: this.$t("repeatPurchaseRate"),
-                },
-            ] as PaymentCardInfo[]
-        }
-    },
+const cards = ref<PaymentCardInfo[]>([{
+    value: 75000,
+    type: 'currency',
+    caption: t("totalRevenue"),
+},
+{ value: 16, type: 'currency', caption: t("averagePayment") },
+{
+    value: 15,
+    type: 'percentage',
+    caption: t("repeatPurchaseRate"),
+}])
 
-    methods: {
-        ...mapActions("currency", ["fetchExchangeRates"])
-    },
+const fetchExchangeRates = (payload: FetchExchangeRatesPayload) => store.dispatch('currency/fetchExchangeRates', payload)
+const isEmpty = computed<Boolean>(() => store.getters['currency/isEmpty'])
 
-    computed: {
-        ...mapGetters("currency", ["isEmpty"])
-    },
+onMounted(() => {
+    if (!isEmpty.value) {
+        return
+    }
 
-    mounted() {
-        if (this.isEmpty) {
-            this.fetchExchangeRates({ startDate: INITIAL_START_DATE, endDate: INITIAL_END_DATE })
-        }
-    },
-
-    beforeRouteEnter: protectedRoute.beforeRouteEnter,
-    mixins: [protectedRoute]
-}
+    fetchExchangeRates({ startDate: INITIAL_START_DATE, endDate: INITIAL_END_DATE })
+})
 </script>
 
 <template>
-    <div class="pa-4 container" v-focus-first>
-        <h1>{{ $t("currencyExchange") }}</h1>
-        <IntervalSelectors />
-        <PaymentCardsList :cards="cards" />
-        <ExchangeChartBlock />
-    </div>
+    <ProtectedRoute>
+        <div class="pa-4 container" v-focus-first>
+            <h1>{{ $t("currencyExchange") }}</h1>
+            <IntervalSelectors />
+            <PaymentCardsList :cards="cards" />
+            <ExchangeChartBlock />
+        </div>
+    </ProtectedRoute>
 </template>
 
 <style scoped lang="scss">

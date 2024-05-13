@@ -1,16 +1,11 @@
-<script lang="ts">
-import type { PropType } from 'vue';
+<script setup lang="ts">
 import PaymentCard, { type PaymentCardInfo } from './PaymentCard.vue';
 
-export default {
-    props: {
-        cards: Array as PropType<PaymentCardInfo[]>
-    },
-
-    components: {
-        PaymentCard
-    }
+export interface PaymentCardsListProps {
+    cards: PaymentCardInfo[]
 }
+
+defineProps<PaymentCardsListProps>()
 </script>
 
 <template>

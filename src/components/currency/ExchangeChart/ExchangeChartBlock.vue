@@ -1,13 +1,6 @@
-<script lang="ts">
+<script setup lang="ts">
 import ExchangePeriodDropdown from './ExchangePeriodDropdown.vue';
 import ExchangeChart from './ExchangeChart.vue';
-
-export default {
-    components: {
-        ExchangePeriodDropdown,
-        ExchangeChart
-    }
-}
 </script>
 
 <template>

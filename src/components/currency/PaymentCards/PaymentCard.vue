@@ -1,5 +1,5 @@
-<script lang="ts">
-import type { PropType } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 
 type PaymentStatsCardType = 'currency' | 'percentage'
 
@@ -8,6 +8,12 @@ export interface PaymentCardInfo {
     caption: string
     value: number
 }
+
+export interface PaymentCardProps {
+    card: PaymentCardInfo
+}
+
+const props = defineProps<PaymentCardProps>()
 
 const addons: Record<
     PaymentStatsCardType,
@@ -21,39 +27,14 @@ const addons: Record<
     },
 }
 
-export default {
-    props: {
-        card: {
-            type: Object as PropType<PaymentCardInfo>,
-            required: true,
-        }
-
-    },
-
-    computed: {
-        displayCaption() {
-            const prefix = addons[this.card.type].prefix || ''
-            const suffix = addons[this.card.type].suffix || ''
-            const displayValue = this.card.value.toLocaleString('en-us', {
-                minimumFractionDigits: 2,
-            })
-            return `${prefix}${displayValue}${suffix}`
-        }
-    },
-
-    data() {
-        return {
-            addons: {
-                currency: {
-                    prefix: '$',
-                },
-                percentage: {
-                    suffix: '%',
-                },
-            }
-        }
-    }
-}
+const displayCaption = computed(() => {
+    const prefix = addons[props.card.type].prefix || ''
+    const suffix = addons[props.card.type].suffix || ''
+    const displayValue = props.card.value.toLocaleString('en-us', {
+        minimumFractionDigits: 2,
+    })
+    return `${prefix}${displayValue}${suffix}`
+})
 </script>
 
 <template>

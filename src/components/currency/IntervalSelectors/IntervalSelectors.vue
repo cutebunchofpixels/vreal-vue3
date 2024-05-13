@@ -1,12 +1,5 @@
-<script lang="ts">
+<script setup lang="ts">
 import SelectIntervalForm from '@/components/currency/IntervalSelectors/SelectIntervalForm.vue';
-
-export default {
-    components: {
-        SelectIntervalForm
-    },
-
-}
 </script>
 
 <template>

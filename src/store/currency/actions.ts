@@ -8,13 +8,18 @@ import { shouldRefetchExchangeRates } from '@/utils/shouldRefetchExchangeRates'
 import { useToast } from 'vue-toastification'
 import { i18n } from '@/i18n'
 
+export interface FetchExchangeRatesPayload {
+  startDate: Dayjs
+  endDate: Dayjs
+}
+
 const toast = useToast()
 const { t } = i18n.global as { t: any }
 
 export const currencyActions: ActionTree<CurrencyState, {}> = {
   fetchExchangeRates: async (
     { commit, getters },
-    { startDate, endDate }: { startDate: Dayjs; endDate: Dayjs }
+    { startDate, endDate }: FetchExchangeRatesPayload
   ) => {
     if (!shouldRefetchExchangeRates(startDate, endDate, getters.startDate, getters.endDate)) {
       return
