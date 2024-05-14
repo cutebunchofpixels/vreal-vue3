@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { storeToRefs } from 'pinia';
 
-import type { StoreState } from '@/store';
+import { useAuthStore } from '@/store/auth';
 
 interface CurrentUserPopoverProps {
     modelValue: boolean;
@@ -16,9 +15,9 @@ interface CurrentUserPopoverEmits {
 defineProps<CurrentUserPopoverProps>()
 defineEmits<CurrentUserPopoverEmits>()
 
-const store = useStore<StoreState>()
+const authStore = useAuthStore()
 
-const user = computed(() => store.state.auth.user!)
+const { user } = storeToRefs(authStore)
 </script>
 
 <template>
@@ -30,7 +29,7 @@ const user = computed(() => store.state.auth.user!)
         </template>
         <VCard min-width="300">
             <VList :tabindex="-1">
-                <VListItem :title="user.displayName || user.email || 'Username'" :subtitle="$t('currentUser')" />
+                <VListItem :title="user?.displayName || user?.email || 'Username'" :subtitle="$t('currentUser')" />
             </VList>
             <VDivider />
             <VCardActions>

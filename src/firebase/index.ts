@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
-import { store } from '@/store'
+import { pinia } from '@/store'
+import { useAuthStore } from '@/store/auth'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -13,8 +14,9 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
+const authStore = useAuthStore(pinia)
 export const auth = getAuth(app)
 
 onAuthStateChanged(auth, (user) => {
-  user ? store.dispatch('auth/signin', user) : store.dispatch('auth/signout')
+  user ? authStore.signin(user) : authStore.signout()
 })

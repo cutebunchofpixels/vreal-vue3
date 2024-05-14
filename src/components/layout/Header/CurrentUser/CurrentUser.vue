@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
 import { signOut } from 'firebase/auth';
+import { storeToRefs } from 'pinia';
 
 import { auth } from '@/firebase';
 import CurrentUserPopover from './CurrentUserPopover.vue';
-import type { StoreState } from '@/store';
+import { useAuthStore } from '@/store/auth';
 
-const store = useStore<StoreState>()
+const authStore = useAuthStore()
 const toast = useToast()
 const { t } = useI18n()
 
+const { user } = storeToRefs(authStore)
 const isPopoverVisible = ref<boolean>(false)
-const user = computed(() => store.state.auth.user!)
 
 async function handleSignout() {
     try {

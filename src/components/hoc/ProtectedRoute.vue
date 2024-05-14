@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { storeToRefs } from 'pinia';
 
-import type { StoreState } from '@/store';
+import { useAuthStore } from '@/store/auth';
 
-const store = useStore<StoreState>()
+
+const authStore = useAuthStore()
 const router = useRouter()
 
-const user = computed(() => store.state.auth.user)
+const { user } = storeToRefs(authStore)
 
 watch(user, (next) => {
     if (!next) {
