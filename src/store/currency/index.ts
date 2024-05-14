@@ -1,6 +1,6 @@
 import { useToast } from 'vue-toastification'
 import { useI18n } from 'vue-i18n'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Dayjs } from 'dayjs'
 
@@ -47,3 +47,7 @@ export const useCurrencyStore = defineStore('curency', () => {
 
   return { exchangeRates, isLoading, isEmpty, error, startDate, endDate, fetchExchangeRates }
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useCurrencyStore, import.meta.hot))
+}

@@ -1,25 +1,22 @@
 <script setup lang="ts">
-import { useStore } from 'vuex';
-import { computed, onMounted } from 'vue';
-
+import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
 import UsersTable from './UsersTable/UsersTable.vue';
 import UsersFilters from './UsersTable/UsersFilters.vue';
 import ProtectedRoute from '../hoc/ProtectedRoute.vue';
-import type { StoreState } from '@/store';
-import type { FetchUsersPayload } from '@/store/users/actions';
+import { useUsersStore } from '@/store/users';
 
-const store = useStore<StoreState>()
+const usersStore = useUsersStore()
 
-const isEmpty = computed(() => store.getters['users/isEmpty'])
-const fetchUsers = (payload: FetchUsersPayload) => store.dispatch('users/fetchUsers', payload)
+const { isEmpty } = storeToRefs(usersStore)
 
 onMounted(async () => {
     if (!isEmpty.value) {
         return
     }
 
-    await fetchUsers({})
+    await usersStore.fetchUsers()
 })
 </script>
 

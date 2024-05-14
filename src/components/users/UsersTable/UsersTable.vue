@@ -2,17 +2,15 @@
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
+import { storeToRefs } from 'pinia';
 
 import EditUserModal from '../EditUser/EditUserModal.vue';
 import type { GorestUser } from '@/types/models/Users/GorestUser';
-import type { FetchUsersPayload } from '@/store/users/actions';
 
-import type { StoreState } from '@/store';
-
+import { useUsersStore } from '@/store/users';
 
 const { t } = useI18n()
-const store = useStore<StoreState>()
+const usersStore = useUsersStore()
 const router = useRouter()
 
 const selectedUserId = ref<number | undefined>(undefined)
@@ -23,14 +21,11 @@ const headers = computed(() => [
     { width: "20%", sortable: false, title: t("status"), key: 'status' },
     { width: "10%", sortable: false, title: t("actions"), key: 'actions' },
 ])
-const users = computed(() => store.state.users.users)
-const isLoading = computed(() => store.state.users.isLoading)
-const totalItems = computed(() => store.state.users.totalItems)
-const currentPage = computed(() => store.state.users.page)
 
-const fetchUsers = (payload: FetchUsersPayload) => store.dispatch("users/fetchUsers", payload)
+const { users, isLoading, totalItems, page: currentPage } = storeToRefs(usersStore)
+
 const editItem = (item: GorestUser) => selectedUserId.value = item.id
-const handlePageChange = async (nextPage: number) => await fetchUsers({ page: nextPage })
+const handlePageChange = async (nextPage: number) => await usersStore.fetchUsers({ page: nextPage })
 const handleCloseModal = () => selectedUserId.value = undefined
 const handleRowClick = (_: PointerEvent, { item }: { item: GorestUser }) => router.push(`users/${item.id}`)
 </script>

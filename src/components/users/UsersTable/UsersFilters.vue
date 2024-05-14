@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 
 import { Gender } from '@/types/models/Users/Gender';
 import { getEnumOptions } from '@/utils/getEnumOptions';
-import type { FetchUsersPayload } from '@/store/users/actions';
-import type { StoreState } from '@/store';
+import { useUsersStore } from '@/store/users';
 
 type FilterOption = Gender | "all"
 
-const store = useStore<StoreState>()
+const usersStore = useUsersStore()
 const { t } = useI18n()
 
 const option = ref<FilterOption>('all')
@@ -22,13 +20,11 @@ const filterOptions = [
     ...getEnumOptions<Gender>(Gender, label => t(label))
 ]
 
-const fetchUsers = (payload: FetchUsersPayload) => store.dispatch('users/fetchUsers', payload)
-
 async function handleOptionChange() {
     if (option.value === "all") {
-        fetchUsers({ filters: { gender: undefined }, page: 1 })
+        usersStore.fetchUsers({ filters: { gender: undefined }, page: 1 })
     } else {
-        fetchUsers({ filters: { gender: option.value }, page: 1 })
+        usersStore.fetchUsers({ filters: { gender: option.value }, page: 1 })
     }
 }
 </script>

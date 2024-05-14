@@ -4,7 +4,6 @@ import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
 import { computed, ref, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
 import { AxiosError } from 'axios';
 
 import { UserService } from '@/api/users/UsersService';
@@ -12,8 +11,7 @@ import { Gender } from '@/types/models/Users/Gender';
 import { Status } from '@/types/models/Users/Status';
 import { getEnumOptions } from '@/utils/getEnumOptions';
 import type { GorestUser } from '@/types/models/Users/GorestUser';
-import type { FetchUsersPayload } from '@/store/users/actions';
-import type { StoreState } from '@/store';
+import { useUsersStore } from '@/store/users';
 
 
 
@@ -32,7 +30,7 @@ const props = defineProps<EditUserFormProps>()
 const emit = defineEmits<EditUserFormEmits>()
 
 const { t } = useI18n()
-const store = useStore<StoreState>()
+const usersStore = useUsersStore()
 const toast = useToast()
 const router = useRouter()
 
@@ -49,8 +47,6 @@ const isSubmitDisabled = computed(() => isEqual(user.value, initialUser.value))
 const genderOptions = getEnumOptions<Gender>(Gender, (label) => t(label))
 const statusOptions = getEnumOptions<Gender>(Gender, (label) => t(label))
 
-const fetchUsers = (payload: FetchUsersPayload) => store.dispatch("users/fetchUsers", payload)
-
 async function handleSubmit() {
     if (!props.userId) {
         return
@@ -60,7 +56,7 @@ async function handleSubmit() {
 
     try {
         await UserService.update(props.userId, user.value)
-        await fetchUsers({})
+        await usersStore.fetchUsers()
         emit("submit")
     } catch (error) {
         toast.error(t("unexpectedError", { cause: "while updating user" }))
