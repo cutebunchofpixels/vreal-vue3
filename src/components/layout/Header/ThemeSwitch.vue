@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { useStore } from 'vuex';
+import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 
 import { Theme } from '@/types/Theme';
-import type { StoreState } from '@/store';
-import { computed } from 'vue';
+import { useConfigStore } from '@/store/config';
 
-const store = useStore<StoreState>()
+const configStore = useConfigStore()
 
-const theme = computed(() => store.state.config.theme)
+const { theme } = storeToRefs(configStore)
 const isChecked = computed(() => theme.value === Theme.Dark)
-const toggleTheme = () => store.dispatch('config/toggleTheme')
 </script>
 
 <template>
-    <VSwitch inset class="theme-switch" :model-value="isChecked" @update:model-value="toggleTheme"
+    <VSwitch inset class="theme-switch" :model-value="isChecked" @update:model-value="configStore.toggleTheme"
         aria-label="Toggle theme">
         <template v-slot:label>
             <VIcon icon="mdi-theme-light-dark" />

@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import { useStore } from 'vuex';
-import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 
 import { Locale } from '@/types/Locale';
 import { getEnumOptions } from '@/utils/getEnumOptions';
-import type { StoreState } from '@/store';
+import { useConfigStore } from '@/store/config';
 
-const store = useStore<StoreState>()
+const configStore = useConfigStore()
 const { locale: localeRef } = useI18n()
 
 const localeDisplayNames = {
     [Locale.English]: "English",
     [Locale.Hebrew]: "Hebrew",
 }
+
+const { locale } = storeToRefs(configStore)
 const options = getEnumOptions<Locale>(Locale, (label) => localeDisplayNames[label])
-const locale = computed(() => store.state.config.locale)
 
 function changeLocale(locale: Locale) {
-    store.dispatch('config/changeLocale', { locale, localeRef })
+    configStore.changeLocale(locale, localeRef)
 }
 </script>
 

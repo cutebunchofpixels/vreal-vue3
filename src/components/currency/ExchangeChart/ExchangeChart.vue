@@ -3,16 +3,18 @@ import { useStore } from 'vuex';
 import Plotly, { newPlot, type Config, type Layout, type PlotData } from 'plotly.js';
 import { computed, ref, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 
 import { Theme } from '@/types/Theme';
 import type { CurrencyExchangeRates } from '@/types/models/CurrencyExchange/CurrencyExchangeRates';
 import type { StoreState } from '@/store';
-
+import { useConfigStore } from '@/store/config';
 
 const store = useStore<StoreState>()
+const configStore = useConfigStore()
 const { t } = useI18n()
 
-const theme = computed(() => store.state.config.theme)
+const { theme } = storeToRefs(configStore)
 const exchangeRates = computed(() => store.state.currency.exchangeRates)
 const isLoading = computed(() => store.state.currency.isLoading)
 const chart = ref<HTMLInputElement | null>(null)
@@ -33,8 +35,7 @@ const data = computed<Partial<PlotData>[]>(() => {
 
     return [usdTrace, eurTrace]
 })
-
-const layout: Partial<Layout> = {
+const layout = computed<Partial<Layout>>(() => ({
     margin: {
         t: 0,
     },
@@ -63,7 +64,7 @@ const layout: Partial<Layout> = {
     autosize: true,
 
     showlegend: false,
-}
+}))
 const config: Partial<Config> = {
     responsive: true,
     staticPlot: true,
@@ -75,7 +76,7 @@ function renderChart() {
     }
 
     Plotly.Plots.resize(chart.value)
-    newPlot(chart.value, data.value, layout, config);
+    newPlot(chart.value, data.value, layout.value, config);
 }
 
 watchEffect(() => {

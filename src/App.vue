@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { useStore } from 'vuex';
-import type { StoreState } from './store';
-import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 
-const store = useStore<StoreState>()
-const theme = computed(() => store.state.config.theme)
+import { useConfigStore } from './store/config';
 
+const configStore = useConfigStore()
+const { theme } = storeToRefs(configStore)
 </script>
 
 <template>
