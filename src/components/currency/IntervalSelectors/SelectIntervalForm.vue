@@ -1,22 +1,18 @@
 <script setup lang="ts">
 import { Dayjs } from 'dayjs';
-import { useStore } from 'vuex';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 
 import DatePicker from '@/components/ui/DatePicker/DatePicker.vue'
 import { INITIAL_END_DATE, INITIAL_START_DATE, MAX_EXCHANGE_INTERVAL, MIN_EXCHANGE_INTERVAL } from '@/store/currency/constants';
 import { dayjs } from '@/utils/dayjs';
-import type { StoreState } from '@/store';
-import type { FetchExchangeRatesPayload } from '@/store/currency/actions';
+import { useCurrencyStore } from '@/store/currency';
 
-const store = useStore<StoreState>()
+const currencyStore = useCurrencyStore()
 
-const loadedStartDate = computed(() => store.getters['currency/startDate'])
-const loadedEndDate = computed(() => store.getters['currency/endDate'])
+const { startDate: loadedStartDate, endDate: loadedEndDate } = storeToRefs(currencyStore)
 const startDate = ref<Dayjs | null>(loadedStartDate.value || INITIAL_START_DATE)
 const endDate = ref<Dayjs | null>(loadedEndDate.value || INITIAL_END_DATE)
-const fetchExchangeRates = (payload: FetchExchangeRatesPayload) => store.dispatch('currency/fetchExchangeRates', payload)
-
 
 function isValidStartDate(startDate: Dayjs, endDate: Dayjs | null) {
     if (startDate.isAfter(dayjs())) {
@@ -55,7 +51,7 @@ async function handleFormSubmit() {
         return
     }
 
-    await fetchExchangeRates({ startDate: startDate.value, endDate: endDate.value })
+    await currencyStore.fetchExchangeRates(startDate.value, endDate.value)
 }
 </script>
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useStore } from 'vuex';
 import Plotly, { newPlot, type Config, type Layout, type PlotData } from 'plotly.js';
 import { computed, ref, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -7,16 +6,15 @@ import { storeToRefs } from 'pinia';
 
 import { Theme } from '@/types/Theme';
 import type { CurrencyExchangeRates } from '@/types/models/CurrencyExchange/CurrencyExchangeRates';
-import type { StoreState } from '@/store';
 import { useConfigStore } from '@/store/config';
+import { useCurrencyStore } from '@/store/currency';
 
-const store = useStore<StoreState>()
 const configStore = useConfigStore()
+const currencyStore = useCurrencyStore()
 const { t } = useI18n()
 
 const { theme } = storeToRefs(configStore)
-const exchangeRates = computed(() => store.state.currency.exchangeRates)
-const isLoading = computed(() => store.state.currency.isLoading)
+const { exchangeRates, isLoading } = storeToRefs(currencyStore)
 const chart = ref<HTMLInputElement | null>(null)
 const data = computed<Partial<PlotData>[]>(() => {
     const dates = exchangeRates.value.map((item: CurrencyExchangeRates) => item.date.format("YYYY-MM-DD"))

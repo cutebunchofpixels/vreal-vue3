@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { useStore } from 'vuex';
+import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 
 import IntervalSelectors from './IntervalSelectors/IntervalSelectors.vue';
 import type { PaymentCardInfo } from './PaymentCards/PaymentCard.vue';
 import PaymentCardsList from './PaymentCards/PaymentCardsList.vue';
 import ExchangeChartBlock from './ExchangeChart/ExchangeChartBlock.vue';
 import { INITIAL_END_DATE, INITIAL_START_DATE } from '@/store/currency/constants';
-import { computed, onMounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import type { StoreState } from '@/store';
-import type { FetchExchangeRatesPayload } from '@/store/currency/actions';
 import ProtectedRoute from '../hoc/ProtectedRoute.vue';
+import { useCurrencyStore } from '@/store/currency';
 
 const { t } = useI18n()
-const store = useStore<StoreState>()
+const currencyStore = useCurrencyStore()
 
 const cards = ref<PaymentCardInfo[]>([{
     value: 75000,
@@ -27,15 +26,14 @@ const cards = ref<PaymentCardInfo[]>([{
     caption: t("repeatPurchaseRate"),
 }])
 
-const fetchExchangeRates = (payload: FetchExchangeRatesPayload) => store.dispatch('currency/fetchExchangeRates', payload)
-const isEmpty = computed<Boolean>(() => store.getters['currency/isEmpty'])
+const { isEmpty } = storeToRefs(currencyStore)
 
 onMounted(() => {
     if (!isEmpty.value) {
         return
     }
 
-    fetchExchangeRates({ startDate: INITIAL_START_DATE, endDate: INITIAL_END_DATE })
+    currencyStore.fetchExchangeRates(INITIAL_START_DATE, INITIAL_END_DATE)
 })
 </script>
 

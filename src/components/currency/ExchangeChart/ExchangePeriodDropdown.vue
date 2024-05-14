@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useStore } from 'vuex';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VBtn } from 'vuetify/components';
@@ -7,8 +6,7 @@ import type { VBtn } from 'vuetify/components';
 import { getEnumOptions } from '@/utils/getEnumOptions';
 import { dayjs } from '@/utils/dayjs';
 import { MAX_EXCHANGE_INTERVAL } from '@/store/currency/constants';
-import type { StoreState } from '@/store';
-import type { FetchExchangeRatesPayload } from '@/store/currency/actions';
+import { useCurrencyStore } from '@/store/currency';
 
 enum IntervalOption {
     CurrentWeek = "currentWeek",
@@ -16,9 +14,11 @@ enum IntervalOption {
 }
 
 const { t } = useI18n()
-const store = useStore<StoreState>()
+const currencyStore = useCurrencyStore()
 
 const button = ref<VBtn | null>(null)
+
+const options = getEnumOptions<IntervalOption>(IntervalOption, (label) => t(label))
 
 function getIntervalDates(option: IntervalOption) {
     let startDate = dayjs().subtract(MAX_EXCHANGE_INTERVAL - 1, 'day')
@@ -32,12 +32,9 @@ function getIntervalDates(option: IntervalOption) {
     return { startDate, endDate }
 }
 
-const options = getEnumOptions<IntervalOption>(IntervalOption, (label) => t(label))
-const fetchExchangeRates = (payload: FetchExchangeRatesPayload) => store.dispatch('currency/fetchExchangeRates', payload)
-
 async function handleOptionSelect(option: IntervalOption) {
-    const dates = getIntervalDates(option);
-    await fetchExchangeRates(dates);
+    const { startDate, endDate } = getIntervalDates(option);
+    await currencyStore.fetchExchangeRates(startDate, endDate);
     button.value?.$el.focus()
 }
 </script>
