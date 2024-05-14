@@ -22,12 +22,10 @@ export const useConfigStore = defineStore('config', () => {
   }
 
   function changeLocale(newLocale: Locale, localeRef: Ref<string>) {
-    console.log('TOGGLE THEME')
     locale.value = newLocale
     localeRef.value = newLocale
     document.documentElement.setAttribute('lang', newLocale)
     ls.set(LOCALE_LS_KEY, newLocale)
-    console.log('NEW VALUE: ' + locale.value)
   }
 
   return { theme, locale, toggleTheme, changeLocale }
